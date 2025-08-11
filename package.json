@@ -1,0 +1,25 @@
+{
+  "name": "mcp-server",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.ts",
+  "scripts": {
+    "start": "node --loader ts-node/esm index.ts",
+    "test": "npm test"
+  },
+  "author": "Env0",
+  "license": "Apache-2.0",
+  "description": "Envzero's official MCP server",
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
+  },
+  "devDependencies": {
+    "@types/node": "^24.2.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.17.2"
+  }
+}
