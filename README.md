@@ -45,3 +45,48 @@ To set up the development environment and test the server:
    ```
 
    This will open a web interface at http://localhost:6274 where you can interact with the MCP server and test its capabilities.
+
+## Authentication
+
+The env0 MCP server supports two authentication methods. **API Access Token is preferred** when available.
+
+### Option 1: API Access Token (Recommended)
+
+Use a pre-generated base64 API Access Token:
+
+```bash
+export ENV0_API_ACCESS_TOKEN="your-base64-encoded-token"
+export ENV0_ORGANIZATION_ID="your-organization-id"
+```
+
+### Option 2: API Key ID and Secret
+
+Use individual API Key components:
+
+```bash
+export ENV0_API_KEY_ID="your-api-key-id"
+export ENV0_API_KEY_SECRET="your-api-key-secret"
+export ENV0_ORGANIZATION_ID="your-organization-id"
+```
+
+### Generating an API Access Token
+
+If you have an API Key ID and Secret, you can generate an API Access Token using:
+
+```bash
+echo -n "YOUR_API_KEY_ID:YOUR_API_KEY_SECRET" | base64
+```
+
+### Getting Your Credentials
+
+1. **Organization API Keys**: Go to your env0 organization settings → API Keys tab → Add API Key
+2. **Personal API Keys**: Click your avatar → Personal Settings → API Keys tab → Add API Key
+
+For more details, see the [env0 API Authentication Documentation](https://docs.env0.com/reference/authentication).
+
+### Environment Variables
+
+You can also set an optional custom API URL:
+
+```bash
+export ENV0_API_URL="https://api.env0.com"  # Default value

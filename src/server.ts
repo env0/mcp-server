@@ -88,7 +88,7 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
   });
 
   // Handle GET requests for SSE streams (using built-in support from StreamableHTTP)
-  const handleSessionRequest = async (req: Request, res: Response) => {
+  const handleSessionRequest = async (req: Request, res: Response): Promise<void> => {
     const sessionId = req.headers['mcp-session-id'] as string | undefined;
     if (!sessionId || !transports.streamable[sessionId]) {
       res.status(400).send('Invalid or missing session ID');
@@ -114,7 +114,7 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
   // Handle DELETE requests for session termination
   app.delete('/mcp', handleSessionRequest);
 
-  app.get('/sse', async (req, res) => {
+  app.get('/sse', async (req, res): Promise<void> => {
     console.log('Establishing new SSE connection');
     const transport = new SSEServerTransport('/messages', res);
     console.log(`New SSE connection established for sessionId ${transport.sessionId}`);
@@ -129,7 +129,7 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
     await mcpServer.connect(transport);
   });
 
-  app.post('/messages', async (req, res) => {
+  app.post('/messages', async (req, res): Promise<void> => {
     const sessionId = req.query.sessionId as string;
     const transport = transports.sse[sessionId];
     if (transport) {
@@ -171,7 +171,7 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
 
 async function closeTransports(
   transports: Record<string, SSEServerTransport | StreamableHTTPServerTransport>
-) {
+): Promise<void> {
   for (const sessionId in transports) {
     try {
       await transports[sessionId]?.close();
