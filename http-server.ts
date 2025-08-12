@@ -3,10 +3,11 @@ import { randomUUID } from "node:crypto";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { isInitializeRequest } from "@modelcontextprotocol/sdk/types.js"
 import { createServer } from "./src/mcp-server.js";
-
+import morgan from 'morgan';
+ 
 const app = express();
 app.use(express.json());
-
+app.use(morgan('combined'));
 // Map to store transports by session ID
 const transports: { [sessionId: string]: StreamableHTTPServerTransport } = {};
 

@@ -27,6 +27,7 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.17.2",
     "express": "^5.1.0",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "morgan": "^1.10.0"
   }
 }
