@@ -32,6 +32,7 @@ export function registerGetCloudConfigurationsTool(
 Name: ${config.name}
 Type: ${config.provider}
 Organization ID: ${config.organizationId}
+Cloud ID: ${config.cloudId}
 Health: ${config.health}
 Date From: ${config.dataFrom}
 Date Until: ${config.dataUntil}
