@@ -22,25 +22,25 @@
     "experimentalSpecifierResolution": "node"
   },
   "devDependencies": {
-    "@types/express": "^5.0.1",
-    "@types/node": "^24.2.1",
-    "@typescript-eslint/eslint-plugin": "^8.39.1",
-    "@typescript-eslint/parser": "^8.39.1",
-    "eslint": "^9.33.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.4",
-    "eslint-plugin-unused-imports": "^4.1.4",
-    "nodemon": "^3.1.9",
+    "@types/express": "5.0.3",
+    "@types/node": "24.2.1",
+    "@typescript-eslint/eslint-plugin": "8.39.1",
+    "@typescript-eslint/parser": "8.39.1",
+    "eslint": "9.33.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-prettier": "5.5.4",
+    "eslint-plugin-unused-imports": "4.1.4",
+    "nodemon": "3.1.10",
     "prettier": "3.6.2",
-    "ts-node": "^10.9.2",
-    "tsx": "^4.20.3",
-    "typescript": "^5.9.2"
+    "ts-node": "10.9.2",
+    "tsx": "4.20.4",
+    "typescript": "5.9.2"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.17.2",
-    "dotenv": "^17.2.1",
-    "express": "^5.1.0",
-    "morgan": "^1.10.0",
-    "zod": "^3.22.4"
+    "@modelcontextprotocol/sdk": "1.17.2",
+    "dotenv": "17.2.1",
+    "express": "5.1.0",
+    "morgan": "1.10.1",
+    "zod": "4.0.17"
   }
 }
