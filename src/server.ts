@@ -25,7 +25,6 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
     let transport: StreamableHTTPServerTransport;
 
     if (sessionId && transports.streamable[sessionId]) {
-      // Reuse existing transport
       console.log('Reusing existing StreamableHTTP transport for sessionId', sessionId);
       transport = transports.streamable[sessionId];
     } else if (!sessionId && isInitializeRequest(req.body)) {
@@ -33,7 +32,6 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
       transport = new StreamableHTTPServerTransport({
         sessionIdGenerator: () => randomUUID(),
         onsessioninitialized: sessionId => {
-          // Store the transport by session ID
           transports.streamable[sessionId] = transport;
         },
       });
@@ -42,7 +40,6 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
           delete transports.streamable[transport.sessionId];
         }
       };
-      // TODO? There semes to be an issue—at least in Cursor—where after a connection is made to an HTTP Streamable endpoint, SSE connections to the same Express server fail with "Received a response for an unknown message ID"
       await mcpServer.connect(transport);
     } else {
       // Invalid request

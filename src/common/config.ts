@@ -5,8 +5,8 @@ export function getAndValidateConfig(overrides?: Partial<Env0Config>): Env0Confi
     apiUrl: overrides?.apiUrl || process.env.ENV0_API_URL || 'https://api.env0.com',
     organizationId: overrides?.organizationId || process.env.ENV0_ORGANIZATION_ID || '',
     apiAccessToken: overrides?.apiAccessToken || process.env.ENV0_API_ACCESS_TOKEN,
-    apiKeyId: overrides?.apiKeyId || process.env.ENV0_API_KEY_ID,
-    apiKeySecret: overrides?.apiKeySecret || process.env.ENV0_API_KEY_SECRET,
+    apiKeyId: overrides?.apiKeyId || process.env.ENV0_API_KEY,
+    apiKeySecret: overrides?.apiKeySecret || process.env.ENV0_API_SECRET,
   };
 
   validateConfig(config);
@@ -27,9 +27,8 @@ function validateConfig(config: Env0Config): void {
     );
   }
 
-  // Validate API URL format
   try {
-    new globalThis.URL(config.apiUrl);
+    new URL(config.apiUrl);
   } catch {
     throw new Error(`Invalid API URL: ${config.apiUrl}`);
   }

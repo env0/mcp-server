@@ -16,7 +16,7 @@
   },
   "author": "Env0",
   "license": "Apache-2.0",
-  "description": "Envzero's official MCP server",
+  "description": "Env0's official MCP server",
   "ts-node": {
     "esm": true,
     "experimentalSpecifierResolution": "node"

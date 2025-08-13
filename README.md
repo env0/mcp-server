@@ -1,9 +1,7 @@
-# Envzero's MCP Server
+# Env0's MCP Server
 
-> ⚠️ **Development Status**: This MCP server is currently in active development and has not been released yet. Features and APIs may change without notice.
-
-The Envzero MCP Server connects AI tools Envzero's platform.
-This gives AI agents, assistants, and chatbots the ability to interact with environments in Envzero's platform (for example, deploying, cancalling and getting the logs of environments), as well as getting the resources from Envzero's Cloud Compass.
+The Env0 MCP Server connects AI tools Env0's platform.
+This gives AI agents, assistants, and chatbots the ability to interact with environments in Env0's platform (for example, deploying, canceling and getting the logs of environments), as well as getting the resources from Env0's Cloud Compass.
 All through natural language interactions.
 
 ## Installation
@@ -64,8 +62,8 @@ export ENV0_ORGANIZATION_ID="your-organization-id"
 Use individual API Key components:
 
 ```bash
-export ENV0_API_KEY_ID="your-api-key-id"
-export ENV0_API_KEY_SECRET="your-api-key-secret"
+export ENV0_API_KEY="your-api-key-id"
+export ENV0_API_SECRET="your-api-key-secret"
 export ENV0_ORGANIZATION_ID="your-organization-id"
 ```
 
