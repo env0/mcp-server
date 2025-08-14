@@ -1,3 +1,5 @@
+import axios, { type AxiosInstance, type AxiosRequestConfig } from 'axios';
+
 export interface Env0Config {
   organizationId: string;
   apiUrl: string;
@@ -6,73 +8,28 @@ export interface Env0Config {
   apiKeySecret: string | undefined;
 }
 
-interface RequestOptions {
-  method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
-  body?: unknown;
-  headers?: Record<string, string>;
-}
-
 export class Env0Client {
-  private readonly authHeader: string;
+  private readonly client: AxiosInstance;
 
-  constructor(private readonly config: Env0Config) {
-    if (this.config.apiAccessToken) {
-      this.authHeader = `Basic ${this.config.apiAccessToken}`;
-    } else {
-      // Fallback to Basic Auth with Key ID and Secret
-      const credentials = Buffer.from(
-        `${this.config.apiKeyId}:${this.config.apiKeySecret}`
-      ).toString('base64');
-      this.authHeader = `Basic ${credentials}`;
-    }
+  constructor(config: Env0Config) {
+    const authHeader = config.apiAccessToken
+      ? `Basic ${config.apiAccessToken}`
+      : `Basic ${Buffer.from(`${config.apiKeyId}:${config.apiKeySecret}`).toString('base64')}`;
+
+    this.client = axios.create({
+      baseURL: config.apiUrl,
+      headers: {
+        Authorization: authHeader,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      timeout: 30000, // 30 second timeout
+    });
   }
 
-  async request<T = unknown>(endpoint: string, options: RequestOptions = {}): Promise<T> {
-    const url = `${this.config.apiUrl}${endpoint}`;
-    const { method = 'GET', body, headers = {} } = options;
-
-    try {
-      const response = await fetch(url, {
-        method,
-        headers: {
-          Authorization: this.authHeader,
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          ...headers,
-        },
-        ...(body ? { body: JSON.stringify(body) } : {}),
-      });
-
-      if (response.status === 429) {
-        throw new Error('Rate limit exceeded. env0 API allows up to 1K requests per 60 seconds.');
-      }
-
-      if (response.status === 401) {
-        throw new Error('Authentication failed. Please check your API key credentials.');
-      }
-
-      if (response.status === 403) {
-        throw new Error('Access forbidden. Please check your API key permissions.');
-      }
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`HTTP ${response.status}: ${errorText}`);
-      }
-
-      // Handle empty responses
-      const contentType = response.headers.get('content-type');
-      if (!contentType?.includes('application/json')) {
-        return {} as T;
-      }
-
-      return (await response.json()) as T;
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`env0 API request failed: ${error.message}`);
-      }
-      throw new Error('Unknown error occurred while making API request');
-    }
+  async request<T = unknown>(config: AxiosRequestConfig): Promise<T> {
+    const response = await this.client.request<T>(config);
+    return response.data;
   }
 }
 
