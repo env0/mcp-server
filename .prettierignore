@@ -1,0 +1,10 @@
+node_modules
+dist
+coverage
+*.d.ts
+package-lock.json
+.git
+.idea
+*.log
+*.tgz
+*.tar.gz
