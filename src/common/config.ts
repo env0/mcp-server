@@ -14,13 +14,6 @@ export function getAndValidateConfig(overrides?: Partial<Env0Config>): Env0Confi
 }
 
 function validateConfig(config: Env0Config): void {
-  const required = ['organizationId'] as const;
-  const missing = required.filter(key => !config[key]);
-
-  if (missing.length > 0) {
-    throw new Error(`Missing required env0 configuration: ${missing.join(', ')}`);
-  }
-
   if (!config.apiAccessToken && (!config.apiKeyId || !config.apiKeySecret)) {
     throw new Error(
       'Missing required env0 API credentials (apiAccessToken or apiKeyId/apiKeySecret)'
