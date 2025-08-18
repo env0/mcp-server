@@ -35,6 +35,7 @@ export default [
         setTimeout: 'readonly',
         clearTimeout: 'readonly',
         URL: 'readonly',
+        fetch: 'readonly',
       },
     },
     plugins: {

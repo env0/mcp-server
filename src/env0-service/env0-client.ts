@@ -32,6 +32,7 @@ export class Env0Client {
         if (error.response) {
           const status = error.response.status;
           let message: string;
+
           switch (status) {
             case 401:
               message =
@@ -46,7 +47,7 @@ export class Env0Client {
                 'Rate limit exceeded. Too many requests have been made to the env0 API. Please wait before making additional requests.';
               break;
             default:
-              message = `Request failed with status ${status}: ${error.response.data?.message || error.message}`;
+              message = `Request failed with status ${status}: ${error.response.data}`;
           }
 
           error.message = message;
