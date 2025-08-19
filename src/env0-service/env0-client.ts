@@ -3,18 +3,15 @@ import axios, { type AxiosInstance, type AxiosRequestConfig } from 'axios';
 export interface Env0Config {
   organizationId: string;
   apiUrl: string;
-  apiAccessToken: string | undefined;
-  apiKeyId: string | undefined;
-  apiKeySecret: string | undefined;
+  apiKeyId: string;
+  apiKeySecret: string;
 }
 
 export class Env0Client {
   private readonly client: AxiosInstance;
 
   constructor(config: Env0Config) {
-    const authHeader = config.apiAccessToken
-      ? `Basic ${config.apiAccessToken}`
-      : `Basic ${Buffer.from(`${config.apiKeyId}:${config.apiKeySecret}`).toString('base64')}`;
+    const authHeader = `Basic ${Buffer.from(`${config.apiKeyId}:${config.apiKeySecret}`).toString('base64')}`;
 
     this.client = axios.create({
       baseURL: config.apiUrl,
@@ -36,7 +33,7 @@ export class Env0Client {
           switch (status) {
             case 401:
               message =
-                'Authentication failed. Please check your ENV0_API_ACCESS_TOKEN or ENV0_API_KEY/ENV0_API_SECRET credentials. They may be invalid or expired.';
+                'Authentication failed. Please check your ENV0_API_KEY and ENV0_API_SECRET credentials. They may be invalid or expired.';
               break;
             case 403:
               message =
