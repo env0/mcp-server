@@ -2,13 +2,7 @@ import type { Env0Config } from './env0-client';
 import type Env0Client from './env0-client';
 import type { CloudConfiguration } from './models/cloud-configuration';
 import type { Environment } from './models/environment';
-
-export interface GetEnvironmentsParams {
-  projectId: string | undefined;
-  name: string | undefined;
-  limit: number | undefined;
-  offset: number | undefined;
-}
+import type { GetEnvironmentsParams } from '../mcp/schemas/get-environments-params-schema';
 
 export class Env0Service {
   private readonly config: Env0Config;
@@ -22,7 +16,7 @@ export class Env0Service {
   async getCloudConfigurations(): Promise<CloudConfiguration[]> {
     return this.env0Client.request<CloudConfiguration[]>({
       url: '/mcp/cloud/configurations',
-      params: { organizationId: this.config.organizationId || undefined },
+      params: { organizationId: this.config.organizationId || undefined }
     });
   }
 
@@ -34,8 +28,8 @@ export class Env0Service {
         projectId: environmentParams.projectId || undefined,
         name: environmentParams.name || undefined,
         limit: environmentParams.limit || undefined,
-        offset: environmentParams.offset || undefined,
-      },
+        offset: environmentParams.offset || undefined
+      }
     });
   }
 }

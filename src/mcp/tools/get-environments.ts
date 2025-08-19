@@ -1,6 +1,9 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { Env0Service } from '../../env0-service/env0-service';
-import z from 'zod';
+import {
+  type GetEnvironmentsParams,
+  GetEnvironmentsParamsSchema
+} from '../schemas/get-environments-params-schema';
 
 export function registerGetEnvironmentsTool(server: McpServer, env0Service: Env0Service): void {
   server.registerTool(
@@ -8,30 +11,20 @@ export function registerGetEnvironmentsTool(server: McpServer, env0Service: Env0
     {
       title: 'Get Environments',
       description: 'Get the environments from env0',
-      inputSchema: {
-        projectId: z.string().optional(),
-        name: z.string().optional(),
-        limit: z.number().int().positive().max(100).optional(),
-        offset: z.number().int().nonnegative().optional(),
-      },
+      inputSchema: GetEnvironmentsParamsSchema.shape
     },
-    async ({ projectId, name, limit, offset }) => {
+    async (params: GetEnvironmentsParams) => {
       try {
-        const environments = await env0Service.getEnvironments({
-          projectId,
-          name,
-          limit,
-          offset,
-        });
+        const environments = await env0Service.getEnvironments(params);
 
         if (environments.length === 0) {
           return {
             content: [
               {
                 type: 'text',
-                text: 'No environments found.',
-              },
-            ],
+                text: 'No environments found.'
+              }
+            ]
           };
         }
 
@@ -39,19 +32,19 @@ export function registerGetEnvironmentsTool(server: McpServer, env0Service: Env0
           content: [
             {
               type: 'text',
-              text: `Environments (${environments.length} found): ${JSON.stringify(environments)}`,
-            },
-          ],
+              text: `Environments (${environments.length} found): ${JSON.stringify(environments)}`
+            }
+          ]
         };
       } catch (error) {
         return {
           content: [
             {
               type: 'text',
-              text: `Error fetching environments: ${error instanceof Error ? error.message : 'Unknown error'}`,
-            },
+              text: `Error fetching environments: ${error instanceof Error ? error.message : 'Unknown error'}`
+            }
           ],
-          isError: true,
+          isError: true
         };
       }
     }
