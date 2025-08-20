@@ -1,13 +1,7 @@
+import type { GetEnvironmentsParams } from '../mcp/schemas/get-environments-params-schema';
 import type { Env0Config } from './env0-client';
 import type Env0Client from './env0-client';
 import type { CloudConfiguration } from './models/cloud-configuration';
-
-export interface GetEnvironmentsParams {
-  projectId: string | undefined;
-  name: string | undefined;
-  limit: number | undefined;
-  offset: number | undefined;
-}
 
 export class Env0Service {
   private readonly config: Env0Config;
@@ -43,7 +37,7 @@ export class Env0Service {
       url: '/mcp/projects',
       params: {
         organizationId: this.config.organizationId || undefined
-      },
+      }
     });
   }
 }
