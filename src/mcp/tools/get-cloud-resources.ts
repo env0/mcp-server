@@ -32,7 +32,7 @@ export function registerGetCloudResourcesTool(server: McpServer, env0Service: En
           content: [
             {
               type: 'text',
-              text: `Cloud Resources (${resources.length} found): ${JSON.stringify(resources, null, 2)}`
+              text: JSON.stringify(resources)
             }
           ]
         };

@@ -38,8 +38,7 @@ export class Env0Service {
     limit,
     offset,
     orderBy,
-    cloudConfigurationId,
-    cloudProvider
+    filters
   }: GetCloudResourcesParams): Promise<CloudResource[]> {
     const data = {
       organizationId: this.config.organizationId || undefined,
@@ -51,10 +50,7 @@ export class Env0Service {
               offset: offset || 0
             }
           : undefined,
-      filters: {
-        ...(cloudConfigurationId && { cloudConfigurationId: { eq: cloudConfigurationId } }),
-        ...(cloudProvider && { cloudProvider: { eq: cloudProvider } })
-      }
+      filters
     };
     console.log(data);
     return this.env0Client.request<CloudResource[]>({
