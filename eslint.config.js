@@ -17,7 +17,7 @@ export default [
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
-        project: './tsconfig.json',
+        project: './tsconfig.json'
       },
       globals: {
         console: 'readonly',
@@ -35,13 +35,13 @@ export default [
         setTimeout: 'readonly',
         clearTimeout: 'readonly',
         URL: 'readonly',
-        fetch: 'readonly',
-      },
+        fetch: 'readonly'
+      }
     },
     plugins: {
       '@typescript-eslint': tseslint,
       prettier,
-      'unused-imports': unusedImports,
+      'unused-imports': unusedImports
     },
     rules: {
       // Prettier integration
@@ -55,8 +55,8 @@ export default [
           allowExpressions: true,
           allowTypedFunctionExpressions: true,
           allowHigherOrderFunctions: true,
-          allowDirectConstAssertionInArrowFunctions: true,
-        },
+          allowDirectConstAssertionInArrowFunctions: true
+        }
       ],
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-var-requires': 'error',
@@ -70,8 +70,8 @@ export default [
           vars: 'all',
           varsIgnorePattern: '^_',
           args: 'after-used',
-          argsIgnorePattern: '^_',
-        },
+          argsIgnorePattern: '^_'
+        }
       ],
 
       // General code quality rules
@@ -91,10 +91,10 @@ export default [
           ignoreCase: false,
           ignoreDeclarationSort: true,
           ignoreMemberSort: false,
-          memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
-        },
-      ],
-    },
+          memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single']
+        }
+      ]
+    }
   },
 
   // JavaScript files configuration
@@ -102,14 +102,14 @@ export default [
     files: ['**/*.js', '**/*.mjs'],
     languageOptions: {
       ecmaVersion: 'latest',
-      sourceType: 'module',
+      sourceType: 'module'
     },
     plugins: {
-      prettier,
+      prettier
     },
     rules: {
-      'prettier/prettier': 'error',
-    },
+      'prettier/prettier': 'error'
+    }
   },
 
   // Prettier config to disable conflicting rules
@@ -117,6 +117,6 @@ export default [
 
   // Global ignores
   {
-    ignores: ['node_modules/**', 'dist/**', '*.d.ts', 'coverage/**', '.git/**'],
-  },
+    ignores: ['node_modules/**', 'dist/**', '*.d.ts', 'coverage/**', '.git/**']
+  }
 ];

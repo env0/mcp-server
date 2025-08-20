@@ -9,7 +9,7 @@ export function registerGetCloudConfigurationsTool(
     'get-cloud-configurations',
     {
       title: 'Get Cloud Configurations',
-      description: 'Get the compass cloud configurations',
+      description: 'Get the compass cloud configurations'
     },
     async () => {
       try {
@@ -20,9 +20,9 @@ export function registerGetCloudConfigurationsTool(
             content: [
               {
                 type: 'text',
-                text: 'No cloud configurations found.',
-              },
-            ],
+                text: 'No cloud configurations found.'
+              }
+            ]
           };
         }
 
@@ -30,19 +30,19 @@ export function registerGetCloudConfigurationsTool(
           content: [
             {
               type: 'text',
-              text: `Cloud Configurations (${configurations.length} found): ${JSON.stringify(configurations)}`,
-            },
-          ],
+              text: `Cloud Configurations (${configurations.length} found): ${JSON.stringify(configurations)}`
+            }
+          ]
         };
       } catch (error) {
         return {
           content: [
             {
               type: 'text',
-              text: `Error fetching cloud configurations: ${error instanceof Error ? error.message : 'Unknown error'}`,
-            },
+              text: `Error fetching cloud configurations: ${error instanceof Error ? error.message : 'Unknown error'}`
+            }
           ],
-          isError: true,
+          isError: true
         };
       }
     }

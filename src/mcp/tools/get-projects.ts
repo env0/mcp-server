@@ -6,7 +6,7 @@ export function registerGetProjectsTool(server: McpServer, env0Service: Env0Serv
     'get-projects',
     {
       title: 'Get Projects',
-      description: 'Get the projects from env0',
+      description: 'Get the projects from env0'
     },
     async () => {
       try {
@@ -17,9 +17,9 @@ export function registerGetProjectsTool(server: McpServer, env0Service: Env0Serv
             content: [
               {
                 type: 'text',
-                text: 'No projects found.',
-              },
-            ],
+                text: 'No projects found.'
+              }
+            ]
           };
         }
 
@@ -27,19 +27,19 @@ export function registerGetProjectsTool(server: McpServer, env0Service: Env0Serv
           content: [
             {
               type: 'text',
-              text: `Projects (${projects.length} found): ${JSON.stringify(projects)}`,
-            },
-          ],
+              text: `Projects (${projects.length} found): ${JSON.stringify(projects)}`
+            }
+          ]
         };
       } catch (error) {
         return {
           content: [
             {
               type: 'text',
-              text: `Error fetching projects: ${error instanceof Error ? error.message : 'Unknown error'}`,
-            },
+              text: `Error fetching projects: ${error instanceof Error ? error.message : 'Unknown error'}`
+            }
           ],
-          isError: true,
+          isError: true
         };
       }
     }
