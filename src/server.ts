@@ -9,7 +9,7 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 let httpServer: Server | null = null;
 const transports = {
   streamable: {} as Record<string, StreamableHTTPServerTransport>,
-  sse: {} as Record<string, SSEServerTransport>,
+  sse: {} as Record<string, SSEServerTransport>
 };
 
 export async function startHttpServer(port: number, mcpServer: McpServer): Promise<void> {
@@ -33,7 +33,7 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
         sessionIdGenerator: () => randomUUID(),
         onsessioninitialized: sessionId => {
           transports.streamable[sessionId] = transport;
-        },
+        }
       });
       transport.onclose = () => {
         if (transport.sessionId) {
@@ -48,9 +48,9 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
         jsonrpc: '2.0',
         error: {
           code: -32000,
-          message: 'Bad Request: No valid session ID provided',
+          message: 'Bad Request: No valid session ID provided'
         },
-        id: null,
+        id: null
       });
       return;
     }
@@ -68,8 +68,8 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
           method: 'notifications/progress',
           params: {
             progress,
-            progressToken,
-          },
+            progressToken
+          }
         });
         progress++;
       }, 1000);

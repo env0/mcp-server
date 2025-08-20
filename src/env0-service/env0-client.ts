@@ -18,9 +18,9 @@ export class Env0Client {
       headers: {
         Authorization: authHeader,
         'Content-Type': 'application/json',
-        Accept: 'application/json',
+        Accept: 'application/json'
       },
-      timeout: 30000, // 30 second timeout
+      timeout: 30000 // 30 second timeout
     });
 
     this.client.interceptors.response.use(
@@ -29,7 +29,6 @@ export class Env0Client {
         if (error.response) {
           const status = error.response.status;
           let message: string;
-
           switch (status) {
             case 401:
               message =
