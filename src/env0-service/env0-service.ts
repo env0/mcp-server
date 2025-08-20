@@ -2,6 +2,8 @@ import type { GetEnvironmentsParams } from '../mcp/schemas/get-environments-para
 import type { Env0Config } from './env0-client';
 import type Env0Client from './env0-client';
 import type { CloudConfiguration } from './models/cloud-configuration';
+import type { CloudResource } from './models/cloud-resource';
+import type { GetCloudResourcesParams } from '../mcp/schemas/get-cloud-resources-params-schema';
 
 export class Env0Service {
   private readonly config: Env0Config;
@@ -29,6 +31,36 @@ export class Env0Service {
         limit: environmentParams.limit || undefined,
         offset: environmentParams.offset || undefined
       }
+    });
+  }
+
+  async getCloudResources({
+    limit,
+    offset,
+    orderBy,
+    cloudConfigurationId,
+    cloudProvider
+  }: GetCloudResourcesParams): Promise<CloudResource[]> {
+    const data = {
+      organizationId: this.config.organizationId || undefined,
+      orderBy: orderBy || undefined,
+      paging:
+        limit || offset
+          ? {
+              limit: limit || undefined,
+              offset: offset || 0
+            }
+          : undefined,
+      filters: {
+        ...(cloudConfigurationId && { cloudConfigurationId: { eq: cloudConfigurationId } }),
+        ...(cloudProvider && { cloudProvider: { eq: cloudProvider } })
+      }
+    };
+    console.log(data);
+    return this.env0Client.request<CloudResource[]>({
+      url: '/cloud/resources', // TODO: change to /mcp/cloud/resources
+      method: 'POST',
+      data
     });
   }
 
