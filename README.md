@@ -54,7 +54,6 @@ Once you have your API credentials, you can configure them in the MCP server by 
 ```bash
 export ENV0_API_KEY="your-api-key-id"
 export ENV0_API_SECRET="your-api-key-secret"
-export ENV0_API_ACCESS_TOKEN="your-base64-encoded-token"
 export ENV0_ORGANIZATION_ID="your-organization-id"
 ```
 
@@ -66,8 +65,6 @@ ENV0_API_KEY=your-api-key-id-here
 
 # Required: Your env0 API Key Secret (Get this from the Env0 site using the guide above)
 ENV0_API_SECRET=your-api-key-secret-here
-
-ENV0_API_ACCESS_TOKEN="your-base64-encoded-token"
 
 # Your env0 Organization ID (found in your env0 organization settings). This is required if you have multiple organizations
 ENV0_ORGANIZATION_ID=your-organization-id-here
