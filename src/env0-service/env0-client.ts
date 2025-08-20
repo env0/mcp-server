@@ -32,7 +32,6 @@ export class Env0Client {
         if (error.response) {
           const status = error.response.status;
           let message: string;
-
           switch (status) {
             case 401:
               message =
