@@ -6,7 +6,7 @@ export function getAndValidateConfig(overrides?: Partial<Env0Config>): Env0Confi
     organizationId: overrides?.organizationId || process.env.ENV0_ORGANIZATION_ID || '',
     apiAccessToken: overrides?.apiAccessToken || process.env.ENV0_API_ACCESS_TOKEN,
     apiKeyId: overrides?.apiKeyId || process.env.ENV0_API_KEY,
-    apiKeySecret: overrides?.apiKeySecret || process.env.ENV0_API_SECRET,
+    apiKeySecret: overrides?.apiKeySecret || process.env.ENV0_API_SECRET
   };
 
   validateConfig(config);
