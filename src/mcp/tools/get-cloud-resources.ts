@@ -4,6 +4,7 @@ import {
   type GetCloudResourcesParams,
   GetCloudResourcesParamsSchema
 } from '../schemas/get-cloud-resources-params-schema';
+import { wrap } from '../../common/wrap';
 
 export function registerGetCloudResourcesTool(server: McpServer, env0Service: Env0Service): void {
   server.registerTool(
@@ -13,28 +14,6 @@ export function registerGetCloudResourcesTool(server: McpServer, env0Service: En
       description: 'Get cloud resources from env0',
       inputSchema: GetCloudResourcesParamsSchema.shape
     },
-    async (params: GetCloudResourcesParams) => {
-      try {
-        const resources = await env0Service.getCloudResources(params);
-        return {
-          content: [
-            {
-              type: 'text',
-              text: JSON.stringify(resources)
-            }
-          ]
-        };
-      } catch (error) {
-        return {
-          content: [
-            {
-              type: 'text',
-              text: `Error fetching cloud resources: ${error instanceof Error ? error.message : 'Unknown error'}`
-            }
-          ],
-          isError: true
-        };
-      }
-    }
+    wrap((params: GetCloudResourcesParams) => env0Service.getCloudResources(params))
   );
 }
