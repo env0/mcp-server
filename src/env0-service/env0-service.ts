@@ -40,23 +40,21 @@ export class Env0Service {
     orderBy,
     filters
   }: GetCloudResourcesParams): Promise<CloudResource[]> {
-    const data = {
-      organizationId: this.config.organizationId || undefined,
-      orderBy: orderBy || undefined,
-      paging:
-        limit || offset
-          ? {
-              limit: limit || undefined,
-              offset: offset || 0
-            }
-          : undefined,
-      filters
-    };
-    console.log(data);
     return this.env0Client.request<CloudResource[]>({
-      url: '/cloud/resources', // TODO: change to /mcp/cloud/resources
+      url: '/mcp/cloud/resources',
       method: 'POST',
-      data
+      data: {
+        organizationId: this.config.organizationId || undefined,
+        orderBy: orderBy || undefined,
+        paging:
+          limit || offset
+            ? {
+                limit: limit || undefined,
+                offset: offset || 0
+              }
+            : undefined,
+        filters
+      }
     });
   }
 

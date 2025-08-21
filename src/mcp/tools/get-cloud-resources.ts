@@ -16,18 +16,6 @@ export function registerGetCloudResourcesTool(server: McpServer, env0Service: En
     async (params: GetCloudResourcesParams) => {
       try {
         const resources = await env0Service.getCloudResources(params);
-
-        if (resources.length === 0) {
-          return {
-            content: [
-              {
-                type: 'text',
-                text: 'No cloud resources found.'
-              }
-            ]
-          };
-        }
-
         return {
           content: [
             {
