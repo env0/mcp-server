@@ -2,6 +2,7 @@ import z from 'zod';
 
 export const GetEnvironmentsParamsSchema = z.object({
   projectId: z.string().optional(),
+  environmentId: z.string().optional(),
   name: z.string().optional(),
   limit: z.number().int().positive().max(100).optional(),
   offset: z.number().int().nonnegative().optional()
