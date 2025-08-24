@@ -46,4 +46,10 @@ export class Env0Service {
       }
     });
   }
+
+  async getErrorAnalysis(environmentId: string): Promise<object> {
+    return this.env0Client.request({
+      url: `/mcp/environments/${environmentId}/error-analysis`
+    });
+  }
 }

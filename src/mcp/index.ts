@@ -3,6 +3,7 @@ import { registerGetCloudConfigurationsTool } from './tools/get-cloud-configurat
 import { registerGetEnvironmentsTool } from './tools/get-environments';
 import { Env0Service } from '../env0-service/env0-service';
 import { registerGetProjectsTool } from './tools/get-projects';
+import { registerGetErrorAnalysisTool } from './tools/get-error-analysis';
 
 export function createMcpServer(env0Service: Env0Service): McpServer {
   const server = new McpServer({
@@ -13,6 +14,7 @@ export function createMcpServer(env0Service: Env0Service): McpServer {
   registerGetCloudConfigurationsTool(server, env0Service);
   registerGetEnvironmentsTool(server, env0Service);
   registerGetProjectsTool(server, env0Service);
+  registerGetErrorAnalysisTool(server, env0Service);
 
   return server;
 }
