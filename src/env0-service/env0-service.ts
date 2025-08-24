@@ -34,6 +34,12 @@ export class Env0Service {
     });
   }
 
+  async getEnvironment(environmentId: string): Promise<object> {
+    return this.env0Client.request({
+      url: `/mcp/environments/${environmentId}`
+    });
+  }
+
   async getCloudResources({
     limit,
     offset,

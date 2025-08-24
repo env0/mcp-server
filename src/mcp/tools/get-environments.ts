@@ -4,6 +4,16 @@ import {
   type GetEnvironmentsParams,
   GetEnvironmentsParamsSchema
 } from '../schemas/get-environments-params-schema';
+import _ from 'lodash';
+
+const getEnvironments = async (env0Service: Env0Service, params: GetEnvironmentsParams) => {
+  if (!_.isNil(params.environmentId)) {
+    const environment = await env0Service.getEnvironment(params.environmentId);
+    return [environment];
+  }
+
+  return await env0Service.getEnvironments(params);
+};
 
 export function registerGetEnvironmentsTool(server: McpServer, env0Service: Env0Service): void {
   server.registerTool(
@@ -15,7 +25,7 @@ export function registerGetEnvironmentsTool(server: McpServer, env0Service: Env0
     },
     async (params: GetEnvironmentsParams) => {
       try {
-        const environments = await env0Service.getEnvironments(params);
+        const environments = await getEnvironments(env0Service, params);
 
         if (environments.length === 0) {
           return {
