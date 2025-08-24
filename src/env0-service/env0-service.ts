@@ -2,7 +2,7 @@ import type { GetEnvironmentsParams } from '../mcp/schemas/get-environments-para
 import type { Env0Config } from './env0-client';
 import type Env0Client from './env0-client';
 import type { CloudConfiguration } from './models/cloud-configuration';
-import type { CloudResource } from './models/cloud-resource';
+import type { CloudResourcesResponse } from './models/cloud-resource';
 import type { GetCloudResourcesParams } from '../mcp/schemas/get-cloud-resources-params-schema';
 
 export class Env0Service {
@@ -39,8 +39,8 @@ export class Env0Service {
     offset,
     orderBy,
     filters
-  }: GetCloudResourcesParams): Promise<CloudResource[]> {
-    return this.env0Client.request<CloudResource[]>({
+  }: GetCloudResourcesParams): Promise<CloudResourcesResponse> {
+    return this.env0Client.request<CloudResourcesResponse>({
       url: '/mcp/cloud/resources',
       method: 'POST',
       data: {
