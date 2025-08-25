@@ -2,6 +2,8 @@ import type { GetEnvironmentsParams } from '../mcp/schemas/get-environments-para
 import type { Env0Config } from './env0-client';
 import type Env0Client from './env0-client';
 import type { CloudConfiguration } from './models/cloud-configuration';
+import type { CloudResourcesResponse } from './models/cloud-resource';
+import type { GetCloudResourcesParams } from '../mcp/schemas/get-cloud-resources-params-schema';
 
 export class Env0Service {
   private readonly config: Env0Config;
@@ -35,6 +37,17 @@ export class Env0Service {
   async getEnvironment(environmentId: string): Promise<object> {
     return this.env0Client.request({
       url: `/mcp/environments/${environmentId}`
+    });
+  }
+
+  async getCloudResources(params: GetCloudResourcesParams): Promise<CloudResourcesResponse> {
+    return this.env0Client.request<CloudResourcesResponse>({
+      url: '/mcp/cloud/resources',
+      method: 'POST',
+      data: {
+        organizationId: this.config.organizationId || undefined,
+        ...params
+      }
     });
   }
 
