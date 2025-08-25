@@ -1,6 +1,6 @@
-import type { AbortDeploymentParams } from '../mcp/schemas/abort-deployment-schema';
-import type { ApproveDeploymentParams } from '../mcp/schemas/approve-deployment-schema';
-import type { CancelDeploymentParams } from '../mcp/schemas/cancel-deployment-schema';
+import type { AbortEnvironmentParams } from '../mcp/schemas/abort-environment-schema';
+import type { ApproveEnvironmentParams } from '../mcp/schemas/approve-environment-schema';
+import type { CancelEnvironmentParams } from '../mcp/schemas/cancel-environment-schema';
 import type { GetEnvironmentsParams } from '../mcp/schemas/get-environments-params-schema';
 import type { Env0Config } from './env0-client';
 import type Env0Client from './env0-client';
@@ -50,21 +50,21 @@ export class Env0Service {
     });
   }
 
-  async approveDeployment({ environmentId }: ApproveDeploymentParams): Promise<object[]> {
+  async approveEnvironment({ environmentId }: ApproveEnvironmentParams): Promise<object> {
     return this.env0Client.request({
       url: `/mcp/environments/${environmentId}/resume`,
       method: 'PUT'
     });
   }
 
-  async cancelDeployment({ environmentId }: CancelDeploymentParams): Promise<object[]> {
+  async cancelEnvironment({ environmentId }: CancelEnvironmentParams): Promise<object> {
     return this.env0Client.request({
       url: `/mcp/environments/${environmentId}/cancel`,
       method: 'PUT'
     });
   }
 
-  async abortDeployment({ environmentId }: AbortDeploymentParams): Promise<object[]> {
+  async abortEnvironment({ environmentId }: AbortEnvironmentParams): Promise<object> {
     return this.env0Client.request({
       url: `/mcp/environments/${environmentId}/abort`,
       method: 'POST'
