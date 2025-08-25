@@ -40,26 +40,13 @@ export class Env0Service {
     });
   }
 
-  async getCloudResources({
-    limit,
-    offset,
-    orderBy,
-    filters
-  }: GetCloudResourcesParams): Promise<CloudResourcesResponse> {
+  async getCloudResources(params: GetCloudResourcesParams): Promise<CloudResourcesResponse> {
     return this.env0Client.request<CloudResourcesResponse>({
       url: '/mcp/cloud/resources',
       method: 'POST',
       data: {
         organizationId: this.config.organizationId || undefined,
-        orderBy: orderBy || undefined,
-        paging:
-          limit || offset
-            ? {
-                limit: limit || undefined,
-                offset: offset || 0
-              }
-            : undefined,
-        filters
+        ...params
       }
     });
   }

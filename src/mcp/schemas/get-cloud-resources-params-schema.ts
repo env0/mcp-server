@@ -15,9 +15,21 @@ const textPattern = baseEQPattern
   .optional();
 
 export const GetCloudResourcesParamsSchema = z.object({
-  limit: z.number().int().positive().max(100).optional(),
-  offset: z.number().int().nonnegative().optional(),
-  orderBy: z.string().optional(),
+  orderBy: z
+    .array(
+      z
+        .array(z.string())
+        .describe(
+          'Array of field names to sort by and then either "ASC" or "DESC" (e.g., ["environmentId", "ASC"], ["managementType", "DESC"])'
+        )
+    )
+    .optional(),
+  paging: z
+    .object({
+      limit: z.number().int().positive().max(100),
+      offset: z.number().int().nonnegative()
+    })
+    .optional(),
   filters: z.object({
     cloudConfigurationId: optionalEQPattern.describe(
       'The cloud configuration ID, can be found using the Cloud Configurations tool. ' +
