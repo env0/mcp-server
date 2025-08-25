@@ -20,7 +20,7 @@ export function registerAbortDeploymentTool(server: McpServer, env0Service: Env0
           content: [
             {
               type: 'text',
-              text: `Aborted deployment`
+              text: `Environment aborted`
             }
           ]
         };

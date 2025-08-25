@@ -50,23 +50,23 @@ export class Env0Service {
     });
   }
 
-  async approveDeployment({ deploymentId }: ApproveDeploymentParams): Promise<object[]> {
+  async approveDeployment({ environmentId }: ApproveDeploymentParams): Promise<object[]> {
     return this.env0Client.request({
-      url: `/mcp/deployments/${deploymentId}/resume`,
+      url: `/mcp/environments/${environmentId}/resume`,
       method: 'PUT'
     });
   }
 
-  async cancelDeployment({ deploymentId }: CancelDeploymentParams): Promise<object[]> {
+  async cancelDeployment({ environmentId }: CancelDeploymentParams): Promise<object[]> {
     return this.env0Client.request({
-      url: `/mcp/deployments/${deploymentId}/cancel`,
+      url: `/mcp/environments/${environmentId}/cancel`,
       method: 'PUT'
     });
   }
 
-  async abortDeployment({ deploymentId }: AbortDeploymentParams): Promise<object[]> {
+  async abortDeployment({ environmentId }: AbortDeploymentParams): Promise<object[]> {
     return this.env0Client.request({
-      url: `/mcp/deployments/${deploymentId}/abort`,
+      url: `/mcp/environments/${environmentId}/abort`,
       method: 'POST'
     });
   }

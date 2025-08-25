@@ -20,7 +20,7 @@ export function registerApproveDeploymentTool(server: McpServer, env0Service: En
           content: [
             {
               type: 'text',
-              text: `Approved deployment`
+              text: `Environment approved`
             }
           ]
         };

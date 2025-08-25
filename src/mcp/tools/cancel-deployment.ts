@@ -20,7 +20,7 @@ export function registerCancelDeploymentTool(server: McpServer, env0Service: Env
           content: [
             {
               type: 'text',
-              text: `Canceled deployment`
+              text: `Environment canceled`
             }
           ]
         };
