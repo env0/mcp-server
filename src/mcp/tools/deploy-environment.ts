@@ -23,7 +23,7 @@ export function registerDeployEnvironmentTool(server: McpServer, env0Service: En
           content: [
             {
               type: 'text',
-              text: 'Environment deployed successfully. Result: ' + JSON.stringify(result)
+              text: `Environment deployed successfully. Result: ${JSON.stringify(result)}`
             }
           ]
         };
