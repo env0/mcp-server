@@ -8,13 +8,26 @@ All through natural language interactions.
 
 ### For Users
 
-Once released, you'll be able to install the MCP server via npm:
+### Windsurf Integration
 
-```bash
-npm install -g @env0/mcp-server
+Add the following to your Windsurf mcp server raw configuration file:
+
+```json
+{
+  "mcpServers": {
+    "env0": {
+      "command": "docker",
+      "args": [
+        "run", "-i", "--rm",
+        "-e", "ENV0_API_KEY=your-api-key-here",
+        "-e", "ENV0_API_SECRET=your-api-secret-here",
+        "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
+        "env0-mcp-server"
+      ]
+    }
+  }
+}
 ```
-
-Then configure it in your MCP-compatible client (like Claude Desktop) by adding it to your configuration file.
 
 ### For Development
 
@@ -68,4 +81,50 @@ ENV0_API_SECRET=your-api-key-secret-here
 
 # Your env0 Organization ID (found in your env0 organization settings). This is required if you have multiple organizations
 ENV0_ORGANIZATION_ID=your-organization-id-here
+```
+
+## Docker Configuration
+
+The env0 MCP server supports Docker deployment, making it easy to run in containerized environments and integrate with MCP clients.
+
+### Building the Docker Image
+
+1. **Build the Docker image:**
+
+   ```bash
+   docker build -t env0-mcp-server .
+   ```
+
+2. **Test the container:**
+
+   ```bash
+   docker run --rm -e ENV0_API_KEY=your-api-key -e ENV0_API_SECRET=your-api-secret -e ENV0_ORGANIZATION_ID=your-org-id env0-mcp-server
+   ```
+
+### Docker Transport Modes
+
+The container supports both MCP transport modes:
+
+#### 1. Stdio Transport (Default)
+- Used by most MCP clients (Claude Desktop, Windsurf)
+- Communication via stdin/stdout
+- Use `-i` flag for interactive mode
+
+#### 2. HTTP Transport
+- For remote MCP server access
+- Set `MCP_TRANSPORT` environment variable to `http` to enable
+
+```bash
+docker run -d -p 3000:3000 -e PORT=3000 -e MCP_TRANSPORT=http env0-mcp-server
+```
+
+Then, configure your MCP client to use the HTTP transport mode:
+```json
+{
+  "mcpServers": {
+    "env0": {
+      "serverUrl": "http://localhost:3000/mcp"
+    }
+  }
+}
 ```

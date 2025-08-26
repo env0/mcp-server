@@ -12,7 +12,7 @@ config({ path: resolve(process.cwd(), '.env') });
 const port = process.env.PORT || 3000;
 
 export async function startServer(): Promise<void> {
-  const isStdioMode = process.env.NODE_ENV === 'cli' || process.argv.includes('--stdio');
+  const isHttpMode = process.argv.includes('--http') || process.env.MCP_TRANSPORT === 'http';
 
   const config = getAndValidateConfig();
   const env0Client = new Env0Client(config);
@@ -20,12 +20,12 @@ export async function startServer(): Promise<void> {
 
   const server = createMcpServer(env0Service);
 
-  if (isStdioMode) {
-    const transport = new StdioServerTransport();
-    await server.connect(transport);
-  } else {
+  if (isHttpMode) {
     console.log(`Initializing Env0 MCP Server in HTTP mode on port ${port}...`);
     await startHttpServer(+port, server);
+  } else {
+    const transport = new StdioServerTransport();
+    await server.connect(transport);
   }
 }
 
