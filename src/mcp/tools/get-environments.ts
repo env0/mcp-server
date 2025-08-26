@@ -6,7 +6,10 @@ import {
 } from '../schemas/get-environments-params-schema';
 import _ from 'lodash';
 
-const getEnvironments = async (env0Service: Env0Service, params: GetEnvironmentsParams) => {
+const getEnvironments = async (
+  env0Service: Env0Service,
+  params: GetEnvironmentsParams
+): Promise<object[]> => {
   if (!_.isNil(params.environmentId)) {
     const environment = await env0Service.getEnvironment(params.environmentId);
     return [environment];

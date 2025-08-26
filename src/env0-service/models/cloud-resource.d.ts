@@ -46,7 +46,7 @@ interface CloudResource {
   cloudId?: string;
 
   name?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 
   clickOpsCount: number;
   apiOpsCount: number;
