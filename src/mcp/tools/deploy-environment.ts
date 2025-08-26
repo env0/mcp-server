@@ -11,8 +11,8 @@ export function registerDeployEnvironmentTool(server: McpServer, env0Service: En
     {
       title: 'Deploy Environment',
       description:
-        'This tool creates a new deployment for an existing env0 environment. ' +
-        'You can use the "get-environments" tool to find the environment ID of the environment you are looking for. ' +
+        'This tool creates a new deployment for an existing env0 environment.\n' +
+        'You can use the "get-environments" or "get-environment" tool to find the environment ID of the environment you are looking for.\n' +
         'This action **ALWAYS** requires approval from the user before execution.',
       inputSchema: DeployEnvironmentSchema.shape
     },
