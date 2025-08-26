@@ -11,7 +11,9 @@ export function registerDeployEnvironmentTool(server: McpServer, env0Service: En
     {
       title: 'Deploy Environment',
       description:
-        'Deploy an environment in env0. This tool creates a new deployment for an existing environment. You can use the "environments" resource to find the environment ID of the environment you are looking for. The deployment will be created and you can track its progress in the env0 dashboard. This action ALWAYS requires approval before execution.',
+        'This tool creates a new deployment for an existing env0 environment. ' +
+        'You can use the "environments" resource to find the environment ID of the environment you are looking for. ' +
+        'This action **ALWAYS** requires approval from the user before execution.',
       inputSchema: DeployEnvironmentSchema.shape
     },
     async (params: DeployEnvironmentParams) => {
@@ -21,7 +23,7 @@ export function registerDeployEnvironmentTool(server: McpServer, env0Service: En
           content: [
             {
               type: 'text',
-              text: JSON.stringify(result)
+              text: 'Environment deployed successfully. Result: ' + JSON.stringify(result)
             }
           ]
         };
