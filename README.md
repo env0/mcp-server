@@ -67,7 +67,7 @@ claude mcp add env0 -- docker run -i --rm -e ENV0_API_KEY=your-api-key-here -e E
 <details>
 <summary><b>Install in Windsurf</b></summary>
 
-Add this to your Windsurf MCP config file. See [Windsurf MCP docs](https://docs.windsurf.com/windsurf/cascade/mcp) for more info.
+Add this to your Windsurf MCP raw config file. See [Windsurf MCP docs](https://docs.windsurf.com/windsurf/cascade/mcp) for more info.
 
 ```json
 {
@@ -430,8 +430,6 @@ Add this to your Amazon Q Developer CLI configuration file. See [Amazon Q Develo
 ```
 
 </details>
-
-&&&&&
 
 <details>
 <summary><b>Install in Warp</b></summary>
