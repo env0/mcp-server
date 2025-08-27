@@ -169,20 +169,22 @@ To configure the env0 MCP server in Augment Code, you can use either the graphic
 4. Add the server configuration to the `mcpServers` array in the `augment.advanced` object
 
 ```json
-"augment.advanced": {
-  "mcpServers": [
-    {
-      "name": "env0",
-      "command": "docker",
-      "args": [
-        "run", "-i", "--rm",
-        "-e", "ENV0_API_KEY=your-api-key-here",
-        "-e", "ENV0_API_SECRET=your-api-secret-here",
-        "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
-        "env0-mcp-server"
-      ]
-    }
-  ]
+{
+  "augment.advanced": {
+    "mcpServers": [
+      {
+        "name": "env0",
+        "command": "docker",
+        "args": [
+          "run", "-i", "--rm",
+          "-e", "ENV0_API_KEY=your-api-key-here",
+          "-e", "ENV0_API_SECRET=your-api-secret-here",
+          "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
+          "env0-mcp-server"
+        ]
+      }
+    ]
+  }
 }
 ```
 
@@ -275,17 +277,19 @@ Open Claude Desktop developer settings and edit your `claude_desktop_config.json
 Add this to your Opencode configuration file. See [Opencode MCP docs](https://opencode.ai/docs/mcp-servers) for more info.
 
 ```json
-"mcp": {
-  "env0": {
-    "type": "local",
-    "command": [
-      "docker", "run", "-i", "--rm",
-      "-e", "ENV0_API_KEY=your-api-key-here",
-      "-e", "ENV0_API_SECRET=your-api-secret-here",
-      "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
-      "env0-mcp-server"
-    ],
-    "enabled": true
+{
+  "mcp": {
+    "env0": {
+      "type": "local",
+      "command": [
+        "docker", "run", "-i", "--rm",
+        "-e", "ENV0_API_KEY=your-api-key-here",
+        "-e", "ENV0_API_SECRET=your-api-secret-here",
+        "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
+        "env0-mcp-server"
+      ],
+      "enabled": true
+    }
   }
 }
 ```
