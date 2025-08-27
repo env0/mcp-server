@@ -8,6 +8,7 @@ import type Env0Client from './env0-client';
 import type { CloudConfiguration } from './models/cloud-configuration';
 import type { CloudResourcesResponse } from './models/cloud-resource';
 import type { GetCloudResourcesParams } from '../mcp/schemas/get-cloud-resources-params-schema';
+import type { GetPlanLogsParams } from '../mcp/schemas/get-plan-logs-params-schema';
 
 export class Env0Service {
   private readonly config: Env0Config;
@@ -97,6 +98,12 @@ export class Env0Service {
         revision,
         comment
       }
+    });
+  }
+
+  async getPlanLogs({ environmentId }: GetPlanLogsParams): Promise<object> {
+    return this.env0Client.request({
+      url: `/mcp/environments/${environmentId}/plan/logs`
     });
   }
 }
