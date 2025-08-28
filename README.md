@@ -30,7 +30,7 @@ For detailed instructions, see the [env0 Organizations documentation](https://do
 <details>
 <summary><b>Install in Cursor</b></summary>
 
-Go to: `Settings` -> `Cursor Settings` -> `MCP` -> `Add new global MCP server`
+Go to: `Settings` -> `Cursor Settings` -> `MCP & Integrations` -> `New MCP Server`
 
 Pasting the following configuration into your Cursor `~/.cursor/mcp.json` file is the recommended approach. You may also install in a specific project by creating `.cursor/mcp.json` in your project folder. See [Cursor MCP docs](https://docs.cursor.com/context/model-context-protocol) for more info.
 
