@@ -6,10 +6,7 @@ import prettierConfig from 'eslint-config-prettier';
 import unusedImports from 'eslint-plugin-unused-imports';
 
 export default [
-  // Base JavaScript recommended rules
   js.configs.recommended,
-
-  // TypeScript files configuration
   {
     files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
@@ -44,10 +41,7 @@ export default [
       'unused-imports': unusedImports
     },
     rules: {
-      // Prettier integration
       'prettier/prettier': 'error',
-
-      // TypeScript specific rules
       '@typescript-eslint/no-unused-vars': 'off',
       '@typescript-eslint/explicit-function-return-type': [
         'warn',
@@ -74,7 +68,6 @@ export default [
         }
       ],
 
-      // General code quality rules
       'no-console': 'off',
       'no-debugger': 'error',
       'no-duplicate-imports': 'error',
@@ -83,8 +76,6 @@ export default [
       'prefer-const': 'error',
       'object-shorthand': 'error',
       'arrow-body-style': ['error', 'as-needed'],
-
-      // Import/export rules
       'sort-imports': [
         'error',
         {
@@ -96,8 +87,6 @@ export default [
       ]
     }
   },
-
-  // JavaScript files configuration
   {
     files: ['**/*.js', '**/*.mjs'],
     languageOptions: {
@@ -114,9 +103,7 @@ export default [
 
   // Prettier config to disable conflicting rules
   prettierConfig,
-
-  // Global ignores
   {
-    ignores: ['node_modules/**', 'dist/**', '*.d.ts', 'coverage/**', '.git/**']
+    ignores: ['node_modules/**', 'dist/**', '*.d.ts', 'coverage/**', '.git/**', 'README.md']
   }
 ];
