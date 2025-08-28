@@ -14,12 +14,15 @@ All through natural language interactions.
 - **Env0 API Credentials** - You'll need to gather the following from your env0 account:
 
 #### 🔑 API Key and Secret
+
 Create an API key and secret by following the [env0 API Keys guide](https://docs.env0.com/docs/api-keys).
 
 #### 🏢 Organization ID
+
 Find your organization ID in the env0 dashboard:
+
 1. Click on your organization icon in the bottom left corner
-2. Select **Settings** from the left side panel  
+2. Select **Settings** from the left side panel
 3. Go to the **General** tab under Organization Settings
 4. Copy the **Organization ID**
 
@@ -44,7 +47,7 @@ Pasting the following configuration into your Cursor `~/.cursor/mcp.json` file i
         "-e", "ENV0_API_KEY=your-api-key-here",
         "-e", "ENV0_API_SECRET=your-api-secret-here",
         "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
-        "env0-mcp-server"
+        "env0/mcp-server"
       ]
     }
   }
@@ -59,7 +62,7 @@ Pasting the following configuration into your Cursor `~/.cursor/mcp.json` file i
 Run this command. See [Claude Code MCP docs](https://docs.anthropic.com/en/docs/claude-code/mcp) for more info.
 
 ```sh
-claude mcp add env0 -- docker run -i --rm -e ENV0_API_KEY=your-api-key-here -e ENV0_API_SECRET=your-api-secret-here -e ENV0_ORGANIZATION_ID=your-org-id-here env0-mcp-server
+claude mcp add env0 -- docker run -i --rm -e ENV0_API_KEY=your-api-key-here -e ENV0_API_SECRET=your-api-secret-here -e ENV0_ORGANIZATION_ID=your-org-id-here env0/mcp-server
 ```
 
 </details>
@@ -79,7 +82,7 @@ Add this to your Windsurf MCP raw config file. See [Windsurf MCP docs](https://d
         "-e", "ENV0_API_KEY=your-api-key-here",
         "-e", "ENV0_API_SECRET=your-api-secret-here",
         "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
-        "env0-mcp-server"
+        "env0/mcp-server"
       ]
     }
   }
@@ -105,7 +108,7 @@ Add this to your VS Code MCP config file. See [VS Code MCP docs](https://code.vi
           "-e", "ENV0_API_KEY=your-api-key-here",
           "-e", "ENV0_API_SECRET=your-api-secret-here",
           "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
-          "env0-mcp-server"
+          "env0/mcp-server"
         ]
       }
     }
@@ -131,7 +134,7 @@ Add this to your Zed `settings.json`. See [Zed Context Server docs](https://zed.
           "-e", "ENV0_API_KEY=your-api-key-here",
           "-e", "ENV0_API_SECRET=your-api-secret-here",
           "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
-          "env0-mcp-server"
+          "env0/mcp-server"
         ]
       },
       "settings": {}
@@ -148,6 +151,7 @@ Add this to your Zed `settings.json`. See [Zed Context Server docs](https://zed.
 To configure the env0 MCP server in Augment Code, you can use either the graphical interface or manual configuration.
 
 ### **A. Using the Augment Code UI**
+
 1. Click the hamburger menu.
 2. Select **Settings**.
 3. Navigate to the **Tools** section.
@@ -155,7 +159,7 @@ To configure the env0 MCP server in Augment Code, you can use either the graphic
 5. Enter the following command:
 
    ```
-   docker run -i --rm -e ENV0_API_KEY=your-api-key-here -e ENV0_API_SECRET=your-api-secret-here -e ENV0_ORGANIZATION_ID=your-org-id-here env0-mcp-server
+   docker run -i --rm -e ENV0_API_KEY=your-api-key-here -e ENV0_API_SECRET=your-api-secret-here -e ENV0_ORGANIZATION_ID=your-org-id-here env0/mcp-server
    ```
 
 6. Name the MCP: **env0**.
@@ -180,7 +184,7 @@ To configure the env0 MCP server in Augment Code, you can use either the graphic
           "-e", "ENV0_API_KEY=your-api-key-here",
           "-e", "ENV0_API_SECRET=your-api-secret-here",
           "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
-          "env0-mcp-server"
+          "env0/mcp-server"
         ]
       }
     ]
@@ -207,7 +211,7 @@ Add this to your Roo Code MCP configuration file. See [Roo Code MCP docs](https:
         "-e", "ENV0_API_KEY=your-api-key-here",
         "-e", "ENV0_API_SECRET=your-api-secret-here",
         "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
-        "env0-mcp-server"
+        "env0/mcp-server"
       ]
     }
   }
@@ -234,7 +238,7 @@ See [Gemini CLI Configuration](https://google-gemini.github.io/gemini-cli/docs/t
         "-e", "ENV0_API_KEY=your-api-key-here",
         "-e", "ENV0_API_SECRET=your-api-secret-here",
         "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
-        "env0-mcp-server"
+        "env0/mcp-server"
       ]
     }
   }
@@ -260,7 +264,7 @@ Open Claude Desktop developer settings and edit your `claude_desktop_config.json
         "-e", "ENV0_API_KEY=your-api-key-here",
         "-e", "ENV0_API_SECRET=your-api-secret-here",
         "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
-        "env0-mcp-server"
+        "env0/mcp-server"
       ]
     }
   }
@@ -268,8 +272,6 @@ Open Claude Desktop developer settings and edit your `claude_desktop_config.json
 ```
 
 </details>
-
-
 
 <details>
 <summary><b>Install in Opencode</b></summary>
@@ -286,7 +288,7 @@ Add this to your Opencode configuration file. See [Opencode MCP docs](https://op
         "-e", "ENV0_API_KEY=your-api-key-here",
         "-e", "ENV0_API_SECRET=your-api-secret-here",
         "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
-        "env0-mcp-server"
+        "env0/mcp-server"
       ],
       "enabled": true
     }
@@ -311,7 +313,7 @@ args = [
   "-e", "ENV0_API_KEY=your-api-key-here",
   "-e", "ENV0_API_SECRET=your-api-secret-here",
   "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
-  "env0-mcp-server"
+  "env0/mcp-server"
 ]
 ```
 
@@ -337,14 +339,14 @@ See [JetBrains AI Assistant Documentation](https://www.jetbrains.com/help/ai-ass
         "-e", "ENV0_API_KEY=your-api-key-here",
         "-e", "ENV0_API_SECRET=your-api-secret-here",
         "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
-        "env0-mcp-server"
+        "env0/mcp-server"
       ]
     }
   }
 }
 ```
 
-5. Click `Apply` to save changes. 
+5. Click `Apply` to save changes.
 6. The same way env0 could be added for JetBrains Junie in `Settings` -> `Tools` -> `Junie` -> `MCP Settings`
 
 </details>
@@ -368,7 +370,7 @@ See [Kiro Model Context Protocol Documentation](https://kiro.dev/docs/mcp/config
         "-e", "ENV0_API_KEY=your-api-key-here",
         "-e", "ENV0_API_SECRET=your-api-secret-here",
         "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
-        "env0-mcp-server"
+        "env0/mcp-server"
       ],
       "env": {},
       "disabled": false,
@@ -398,7 +400,7 @@ For more details, visit the [Trae documentation](https://docs.trae.ai/ide/model-
         "-e", "ENV0_API_KEY=your-api-key-here",
         "-e", "ENV0_API_SECRET=your-api-secret-here",
         "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
-        "env0-mcp-server"
+        "env0/mcp-server"
       ]
     }
   }
@@ -422,7 +424,7 @@ Add this to your Amazon Q Developer CLI configuration file. See [Amazon Q Develo
         "-e", "ENV0_API_KEY=your-api-key-here",
         "-e", "ENV0_API_SECRET=your-api-secret-here",
         "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
-        "env0-mcp-server"
+        "env0/mcp-server"
       ]
     }
   }
@@ -449,7 +451,7 @@ See [Warp Model Context Protocol Documentation](https://docs.warp.dev/knowledge-
       "-e", "ENV0_API_KEY=your-api-key-here",
       "-e", "ENV0_API_SECRET=your-api-secret-here",
       "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
-      "env0-mcp-server"
+      "env0/mcp-server"
     ],
     "env": {},
     "working_directory": null,
@@ -480,7 +482,7 @@ See [LM Studio MCP Support](https://lmstudio.ai/blog/lmstudio-v0.3.17) for more 
         "-e", "ENV0_API_KEY=your-api-key-here",
         "-e", "ENV0_API_SECRET=your-api-secret-here",
         "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
-        "env0-mcp-server"
+        "env0/mcp-server"
       ]
     }
   }
@@ -511,7 +513,7 @@ Add this to your Visual Studio MCP config file (see the [Visual Studio docs](htt
           "-e", "ENV0_API_KEY=your-api-key-here",
           "-e", "ENV0_API_SECRET=your-api-secret-here",
           "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
-          "env0-mcp-server"
+          "env0/mcp-server"
         ]
       }
     }
@@ -540,7 +542,7 @@ Add this to your Crush configuration file. See [Crush MCP docs](https://github.c
         "-e", "ENV0_API_KEY=your-api-key-here",
         "-e", "ENV0_API_SECRET=your-api-secret-here",
         "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
-        "env0-mcp-server"
+        "env0/mcp-server"
       ]
     }
   }
@@ -564,7 +566,7 @@ Open the "Settings" page of the app, navigate to "Plugins," and enter the follow
         "-e", "ENV0_API_KEY=your-api-key-here",
         "-e", "ENV0_API_SECRET=your-api-secret-here",
         "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
-        "env0-mcp-server"
+        "env0/mcp-server"
       ]
     }
   }
@@ -596,7 +598,7 @@ Add this configuration:
         "-e", "ENV0_API_KEY=your-api-key-here",
         "-e", "ENV0_API_SECRET=your-api-secret-here",
         "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
-        "env0-mcp-server"
+        "env0/mcp-server"
       ]
     }
   }
@@ -623,7 +625,7 @@ To configure the env0 MCP server in Zencoder, follow these steps:
     "-e", "ENV0_API_KEY=your-api-key-here",
     "-e", "ENV0_API_SECRET=your-api-secret-here",
     "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
-    "env0-mcp-server"
+    "env0/mcp-server"
   ]
 }
 ```
@@ -654,7 +656,7 @@ See [Qodo Gen docs](https://docs.qodo.ai/qodo-documentation/qodo-gen/qodo-gen-ch
         "-e", "ENV0_API_KEY=your-api-key-here",
         "-e", "ENV0_API_SECRET=your-api-secret-here",
         "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
-        "env0-mcp-server"
+        "env0/mcp-server"
       ]
     }
   }
@@ -682,7 +684,7 @@ See [Local and Remote MCPs for Perplexity](https://www.perplexity.ai/help-center
     "-e", "ENV0_API_KEY=your-api-key-here",
     "-e", "ENV0_API_SECRET=your-api-secret-here",
     "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
-    "env0-mcp-server"
+    "env0/mcp-server"
   ],
   "command": "docker",
   "env": {}
@@ -756,13 +758,13 @@ The env0 MCP server supports Docker deployment, making it easy to run in contain
 1. **Build the Docker image:**
 
    ```bash
-   docker build -t env0-mcp-server .
+   docker build -t env0/mcp-server .
    ```
 
 2. **Test the container:**
 
    ```bash
-   docker run --rm -e ENV0_API_KEY=your-api-key -e ENV0_API_SECRET=your-api-secret -e ENV0_ORGANIZATION_ID=your-org-id env0-mcp-server
+   docker run --rm -e ENV0_API_KEY=your-api-key -e ENV0_API_SECRET=your-api-secret -e ENV0_ORGANIZATION_ID=your-org-id env0/mcp-server
    ```
 
 ### Docker Transport Modes
@@ -770,19 +772,22 @@ The env0 MCP server supports Docker deployment, making it easy to run in contain
 The container supports both MCP transport modes:
 
 #### 1. Stdio Transport (Default)
+
 - Used by most MCP clients (Claude Desktop, Windsurf)
 - Communication via stdin/stdout
 - Use `-i` flag for interactive mode
 
 #### 2. HTTP Transport
+
 - For remote MCP server access
 - Set `MCP_TRANSPORT` environment variable to `http` to enable
 
 ```bash
-docker run -d -p 3000:3000 -e PORT=3000 -e MCP_TRANSPORT=http env0-mcp-server
+docker run -d -p 3000:3000 -e PORT=3000 -e MCP_TRANSPORT=http env0/mcp-server
 ```
 
 Then, configure your MCP client to use the HTTP transport mode:
+
 ```json
 {
   "mcpServers": {
