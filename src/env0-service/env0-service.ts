@@ -9,6 +9,8 @@ import type { CloudConfiguration } from './models/cloud-configuration';
 import type { CloudResourcesResponse } from './models/cloud-resource';
 import type { GetCloudResourcesParams } from '../mcp/schemas/get-cloud-resources-params-schema';
 import type { GetPlanLogsParams } from '../mcp/schemas/get-plan-logs-params-schema';
+import type { GenerateIaCParams } from '../mcp/schemas/generate-iac-schema';
+import type { CheckIaCJobStatusParams } from '../mcp/schemas/check-iac-job-status-schema';
 
 export class Env0Service {
   private readonly config: Env0Config;
@@ -98,6 +100,25 @@ export class Env0Service {
         revision,
         comment
       }
+    });
+  }
+
+  async generateIaC(params: GenerateIaCParams): Promise<{ jobId: string }> {
+    return this.env0Client.request<{ jobId: string }>({
+      url: '/mcp/cloud/resources/generate-iac',
+      method: 'POST',
+      data: {
+        organizationId: this.config.organizationId || undefined,
+        cloudResourceIds: params.cloudResourceIds,
+        iacType: params.iacType
+      }
+    });
+  }
+
+  async checkIaCJobStatus({ jobId }: CheckIaCJobStatusParams): Promise<object> {
+    return this.env0Client.request({
+      url: `/mcp/cloud/resources/generate-iac/${jobId}`,
+      method: 'GET'
     });
   }
 
