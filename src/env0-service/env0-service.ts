@@ -1,6 +1,7 @@
 import type { AbortEnvironmentParams } from '../mcp/schemas/abort-environment-schema';
 import type { ApproveEnvironmentParams } from '../mcp/schemas/approve-environment-schema';
 import type { CancelEnvironmentParams } from '../mcp/schemas/cancel-environment-schema';
+import type { DeployEnvironmentParams } from '../mcp/schemas/deploy-environment-schema';
 import type { GetEnvironmentsParams } from '../mcp/schemas/get-environments-params-schema';
 import type { Env0Config } from './env0-client';
 import type Env0Client from './env0-client';
@@ -83,6 +84,21 @@ export class Env0Service {
     return this.env0Client.request({
       url: `/mcp/environments/${environmentId}/abort`,
       method: 'POST'
+    });
+  }
+
+  async deployEnvironment({
+    environmentId,
+    revision,
+    comment
+  }: DeployEnvironmentParams): Promise<object> {
+    return this.env0Client.request({
+      url: `/mcp/environments/${environmentId}/deployments`,
+      method: 'POST',
+      data: {
+        revision,
+        comment
+      }
     });
   }
 
