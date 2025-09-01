@@ -1,9 +1,9 @@
 name: Build and Deploy
 
 on:
-  push:
-    branches: [main]
-  pull_request:
+  workflow_run:
+    workflows: ["Lint"]
+    types: [completed]
     branches: [main]
   workflow_dispatch:
     inputs:
@@ -18,36 +18,10 @@ env:
   DOCKER_TAG: ${{ inputs.docker_tag || 'beta' }}
 
 jobs:
-  lint-and-test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run linting
-        run: npm run lint
-
-      - name: Check formatting
-        run: npm run format:check
-
-      - name: Type check
-        run: npm run type-check
-
   build-and-push:
-    needs: lint-and-test
     runs-on: ubuntu-latest
-    # Run on pushes to main or manual workflow dispatch (from any branch)
-    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
+    # Only run if lint workflow succeeded, or if manually triggered
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
 
     permissions:
       contents: read
