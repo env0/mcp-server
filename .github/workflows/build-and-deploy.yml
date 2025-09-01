@@ -2,7 +2,7 @@ name: Build and Deploy
 
 on:
   workflow_run:
-    workflows: ["Lint"]
+    workflows: ['Lint']
     types: [completed]
     branches: [main]
   workflow_dispatch:
