@@ -7,6 +7,11 @@ on:
     branches: [main]
   workflow_dispatch:
     inputs:
+      branch:
+        description: 'The branch to build from'
+        required: true
+        default: 'main'
+        type: string
       docker_tag:
         description: 'Docker tag to use for the image'
         required: false
@@ -20,7 +25,7 @@ env:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    # Only run if lint workflow succeeded, or if manually triggered
+    # Only run if: (lint workflow succeeded on main) OR (manually triggered)
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
 
     permissions:
@@ -30,6 +35,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.branch || github.ref_name }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -61,7 +68,7 @@ jobs:
 
       - name: Generate summary
         run: |
-          echo "## 🚀 Docker Image Built and Pushed Successfully!" >> $GITHUB_STEP_SUMMARY
+          echo "## Docker Image Built and Pushed Successfully!" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Image:** \`${{ env.IMAGE_NAME }}:beta\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
