@@ -1,10 +1,6 @@
 name: Build and Deploy
 
 on:
-  workflow_run:
-    workflows: ['Lint']
-    types: [completed]
-    branches: [main]
   release:
     types: [published]
   push:
@@ -28,10 +24,14 @@ env:
   DOCKER_TAG: ${{ inputs.docker_tag || (github.event_name == 'release' && github.event.release.tag_name) || (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') && github.ref_name) || 'beta' }}
 
 jobs:
+  lint:
+    uses: ./.github/workflows/lint.yml
+    # Only run if: (manually triggered) OR (release published) OR (tag pushed)
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'release' || github.event_name == 'push' }}
+
   build-and-push:
     runs-on: ubuntu-latest
-    # Only run if: (lint workflow succeeded on main) OR (manually triggered) OR (release published) OR (tag pushed)
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' || github.event_name == 'release' || github.event_name == 'push' }}
+    needs: lint
 
     permissions:
       contents: read
