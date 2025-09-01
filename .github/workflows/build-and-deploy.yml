@@ -5,9 +5,17 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      docker_tag:
+        description: 'Docker tag to use for the image'
+        required: false
+        default: 'beta'
+        type: string
 
 env:
   IMAGE_NAME: env0/mcp-server
+  DOCKER_TAG: ${{ inputs.docker_tag || 'beta' }}
 
 jobs:
   lint-and-test:
@@ -38,8 +46,8 @@ jobs:
   build-and-push:
     needs: lint-and-test
     runs-on: ubuntu-latest
-    # Only run on pushes to main, not on PRs
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # Run on pushes to main or manual workflow dispatch (from any branch)
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
     
     permissions:
       contents: read
@@ -64,10 +72,7 @@ jobs:
         with:
           images: ${{ env.IMAGE_NAME }}
           tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=raw,value=beta
-            type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=${{ env.DOCKER_TAG }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
