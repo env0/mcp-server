@@ -1,0 +1,89 @@
+name: Build and Deploy
+
+on:
+  release:
+    types: [published]
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'The branch to build from'
+        required: true
+        default: 'main'
+        type: string
+      docker_tag:
+        description: 'Docker tag to use for the image'
+        required: false
+        default: 'beta'
+        type: string
+
+env:
+  IMAGE_NAME: env0/mcp-server
+  DOCKER_TAG: ${{ inputs.docker_tag || (github.event_name == 'release' && github.event.release.tag_name) || (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') && github.ref_name) || 'beta' }}
+
+jobs:
+  lint:
+    uses: ./.github/workflows/lint.yml
+    # Only run if: (manually triggered) OR (release published) OR (tag pushed)
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'release' || github.event_name == 'push' }}
+
+  build-and-push:
+    runs-on: ubuntu-latest
+    needs: lint
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.branch || github.ref_name }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PAT }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=${{ env.DOCKER_TAG }}
+            type=ref,event=tag
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern=latest
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Generate summary
+        run: |
+          echo "## Docker Image Built and Pushed Successfully!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Image:** \`${{ env.IMAGE_NAME }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Primary Tag:** \`${{ env.DOCKER_TAG }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Trigger:** \`${{ github.event_name }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**All Tags:**" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.meta.outputs.tags }}" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY

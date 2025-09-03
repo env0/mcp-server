@@ -11,6 +11,7 @@ import { registerGenerateIaCTool } from './tools/generate-iac';
 import { registerCheckIaCJobStatusTool } from './tools/check-iac-job-status';
 import { registerDeployEnvironmentTool } from './tools/deploy-environment';
 import { registerGetErrorAnalysisTool } from './tools/get-error-analysis';
+import { registerGetPlanLogsTool } from './tools/get-plan-logs';
 
 export function createMcpServer(env0Service: Env0Service): McpServer {
   const server = new McpServer({
@@ -28,6 +29,7 @@ export function createMcpServer(env0Service: Env0Service): McpServer {
   registerGenerateIaCTool(server, env0Service);
   registerCheckIaCJobStatusTool(server, env0Service);
   registerDeployEnvironmentTool(server, env0Service);
+  registerGetPlanLogsTool(server, env0Service);
   registerGetErrorAnalysisTool(server, env0Service);
 
   return server;
