@@ -21,7 +21,7 @@ export function registerGetErrorAnalysisTool(server: McpServer, env0Service: Env
           content: [
             {
               type: 'text',
-              text: `Got error analysis: ${JSON.stringify(errorAnalysis)}`
+              text: `Got error analysis result: ${JSON.stringify(errorAnalysis)}`
             }
           ]
         };
@@ -30,7 +30,7 @@ export function registerGetErrorAnalysisTool(server: McpServer, env0Service: Env
           content: [
             {
               type: 'text',
-              text: `Error getting error analysis: ${error instanceof Error ? error.message : 'Unknown error'}`
+              text: `Error getting error analysis result: ${error instanceof Error ? error.message : 'Unknown error'}`
             }
           ],
           isError: true
