@@ -34,6 +34,10 @@ export class Env0Client {
               message =
                 'Authentication failed. Please check your ENV0_API_KEY and ENV0_API_SECRET credentials. They may be invalid or expired.';
               break;
+            case 402:
+              message =
+                'This tool is using an env0 feature that is not part of your subscription plan. Please contact env0 support for more information.';
+              break;
             case 403:
               message =
                 'Access forbidden. Your API key may not have sufficient permissions to access this resource. Please check your API key permissions in the env0 dashboard.';
