@@ -8,11 +8,7 @@ const baseEQPattern = z.object({
 
 const optionalEQPattern = baseEQPattern.optional();
 
-const textPattern = baseEQPattern
-  .extend({
-    like: z.string().optional()
-  })
-  .optional();
+const textPattern = baseEQPattern.optional();
 
 export const GetCloudResourcesParamsSchema = z.object({
   orderBy: z
@@ -44,12 +40,21 @@ export const GetCloudResourcesParamsSchema = z.object({
       .describe(
         "The cloud provider ID. It's required that you provide either a configuration ID or a cloud provider"
       ),
-    managementType: optionalEQPattern,
+    managementType: optionalEQPattern.describe(
+      'An Optional filter for a specific IaC management type, ' +
+        "basically whether the resource is managed by IaC or not. Possible values for filtering are: 'IaC', 'ClickOps', 'API'"
+    ),
     region: optionalEQPattern,
-    type: textPattern,
+    type: textPattern.describe(
+      'An Optional filter for a specific cloud resource type. ' +
+        'For AWS it looks as follows: [ServiceName]:[ResourceType]. For example: "EC2:Instance", "S3:Bucket", "IAM:User", etc.'
+    ),
     name: textPattern,
     accountId: optionalEQPattern,
-    service: optionalEQPattern,
+    service: optionalEQPattern.describe(
+      'An Optional filter for a specific cloud service. ' +
+        'For AWS it looks as follows: "s3.amazonaws.com", "iam.amazonaws.com", etc.'
+    ),
     resourceId: textPattern,
     cloudId: textPattern,
     severity: z
@@ -58,7 +63,10 @@ export const GetCloudResourcesParamsSchema = z.object({
       })
       .optional(),
     searchBy: textPattern,
-    driftStatus: optionalEQPattern,
+    driftStatus: optionalEQPattern.describe(
+      'An Optional filter for a specific drift status. ' +
+        'Possible values are: "Drifted", "NotDrifted", "DriftRisk", "Unknown".'
+    ),
     environmentId: optionalEQPattern
   })
 });

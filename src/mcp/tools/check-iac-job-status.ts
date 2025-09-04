@@ -11,7 +11,7 @@ export function registerCheckIaCJobStatusTool(server: McpServer, env0Service: En
     {
       title: 'Check IaC Job Status',
       description:
-        'Check the status and retrieve results of an Infrastructure as Code generation job. Use this tool after calling generate-iac to monitor progress and get results.',
+        'Check the status and retrieve results of an Infrastructure as Code generation job. Use this tool after calling generate-iac to monitor progress and get results. Could take up to around 1 minute to get results.',
       inputSchema: CheckIaCJobStatusSchema.shape
     },
     async (params: CheckIaCJobStatusParams) => {
