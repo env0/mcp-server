@@ -695,6 +695,164 @@ See [Local and Remote MCPs for Perplexity](https://www.perplexity.ai/help-center
 
 </details>
 
+## 🔧 Available Tools
+
+The Env0 MCP Server provides a comprehensive set of tools to interact with Env0's platform through natural language. These tools are organized into the following categories:
+
+<details>
+<summary><b>📋 Project & Environment Management</b></summary>
+
+### **get-projects**
+Retrieve all projects from your Env0 organization.
+- **Description**: Get the projects from env0
+- **Parameters**: None required
+- **Usage**: "Show me all my projects" or "List projects"
+
+### **get-environments** 
+Retrieve environments from Env0, with optional filtering.
+- **Description**: Get the environments from env0
+- **Parameters**: 
+  - `environmentId` (optional): Get a specific environment by ID
+  - `name` (optional): Filter by environment name
+  - `projectId` (optional): Filter by project ID
+  - `limit` (optional): Maximum number of environments to return
+  - `offset` (optional): Pagination offset
+- **Usage**: "Show me all environments" or "Get environment with ID xyz"
+
+</details>
+
+<details>
+<summary><b>🚀 Environment Operations</b></summary>
+
+### **deploy-environment**
+Create a new deployment for an existing environment.
+- **Description**: Creates a new deployment for an existing env0 environment. Always requires user to approve the deployment in env0.
+- **Parameters**:
+  - `environmentId` (required): The environment ID to deploy
+  - `comment` (optional): Deployment comment
+  - `revision` (optional): Specific revision to deploy
+- **⚠️ Important**: This action **ALWAYS** requires user approval before execution
+- **Usage**: "Deploy environment xyz" or "Deploy the latest version of my staging environment"
+
+### **abort-environment**
+Abort a running environment's deployment.
+- **Description**: Abort an environment's current deployment
+- **Parameters**:
+  - `environmentId` (required): The environment ID to abort
+- **Usage**: "Abort the deployment of environment xyz"
+
+### **approve-environment**
+Approve an environment plan, pending approval for applying.
+- **Description**: Approve an environment plan, pending approval for applying.
+- **Parameters**:
+  - `environmentId` (required): The environment ID to approve
+- **Usage**: "Approve environment xyz"
+
+### **cancel-environment**
+Cancel an environment plan, pending user approval.
+- **Description**: Cancel an environment plan that is pending user approval.
+- **Parameters**:
+  - `environmentId` (required): The environment ID to cancel
+- **Usage**: "Cancel environment xyz"
+
+</details>
+
+<details>
+<summary><b>📊 Monitoring & Logs</b></summary>
+
+### **get-plan-logs**
+Retrieve Terraform/OpenTofu plan logs (or any other IaC's dry runs results) for an environment.
+- **Description**: Get plan logs for a specific environment from env0
+- **Parameters**:
+  - `environmentId` (required): The environment ID to get logs for
+- **Note**: For full plan details, see the env0 console
+- **Usage**: "Show me the plan logs for environment xyz"
+
+### **get-error-analysis**
+Analyze errors from the last environment deployment.
+- **Description**: Analyzes errors in the last environment's deployment
+- **Parameters**:
+  - `environmentId` (required): The environment ID to analyze errors for
+- **Usage**: "Analyze errors for environment xyz" or "What went wrong with my last deployment?"
+
+</details>
+
+<details>
+<summary><b>☁️ Cloud Resources & Infrastructure</b></summary>
+
+### **get-cloud-configurations**
+Retrieve cloud configurations from Env0's Cloud Compass.
+- **Description**: Get the compass cloud configurations
+- **Parameters**: None required
+- **Usage**: "Show me my cloud configurations"
+
+### **get-cloud-resources**
+Retrieve cloud resources with advanced filtering capabilities.
+- **Description**: Get cloud resources from env0
+- **Parameters**: Complex filtering options including:
+  - `filters` (required): Object with various filter options:
+    - `cloudProvider`: Filter by cloud provider (AWS, GCP, AzureLAW)
+    - `cloudConfigurationId`: Filter by cloud configuration ID
+    - `environmentId`: Filter by environment ID
+    - `resourceId`: Filter by resource ID
+    - `name`: Filter by resource name
+    - `type`: Filter by resource type
+    - `region`: Filter by region
+    - `service`: Filter by service
+    - `managementType`: Filter by management type
+    - `driftStatus`: Filter by drift status
+    - `severity`: Filter by severity (High, Medium, Low, Optimal, Ignored, Reset)
+    - `searchBy`: General search term
+  - `paging`: Pagination options (limit, offset)
+  - `orderBy`: Sorting options
+- **Usage**: "Show me all AWS resources" or "Find resources with high severity drift"
+
+### **generate-iac**
+Generate Infrastructure as Code (Terraform/OpenTofu) from existing cloud resources.
+- **Description**: Generate Infrastructure as Code (IaC) for cloud resources
+- **Parameters**:
+  - `cloudResourceIds` (required): Array of cloud resource IDs to generate IaC for
+  - `iacType` (required): Type of IaC to generate ("OpenTofu" or "Terraform")
+- **Returns**: Job ID for tracking progress
+- **Usage**: "Generate Terraform code for these resources" or "Create OpenTofu configuration for resource xyz"
+
+### **check-iac-job-status**
+Monitor the progress of IaC generation jobs.
+- **Description**: Check the status and retrieve results of an Infrastructure as Code generation job
+- **Parameters**:
+  - `jobId` (required): Job ID returned from generate-iac request
+- **Note**: Jobs can take up to around 1 minute to complete
+- **Usage**: "Check the status of job abc123" or "Is my IaC generation ready?"
+
+</details>
+
+### 💡 Usage Examples
+
+Here are some example natural language queries you can use with the MCP server:
+
+**Project & Environment Management:**
+- "Show me all my projects"
+- "List environments in project xyz"
+- "Get details for environment abc123"
+- "Do I have any environments in project xyz that require my attention?"
+
+**Deployments:**
+- "Deploy my staging environment"
+- "Deploy environment xyz with comment 'hotfix deployment'"
+- "Abort the running deployment for environment xyz"
+
+**Monitoring:**
+- "Show me the plan logs for my production environment"
+- "What's the status of environment abc123?"
+- "Analyze errors for environment xyz" or "What went wrong with my last deployment?"
+
+**Cloud Resources:**
+- "Show me all my AWS resources"
+- "Find resources with drift issues"
+- "List all S3 buckets in us-east-1 in AWS account xyz"
+- "Generate Terraform code for resource xyz from AWS account xyz"
+- "Check if my IaC generation job is complete"
+
 ### For Development of the MCP Server
 
 To set up the development environment and test the server:
