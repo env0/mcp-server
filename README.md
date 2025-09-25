@@ -119,6 +119,35 @@ Add this to your VS Code MCP config file. See [VS Code MCP docs](https://code.vi
 </details>
 
 <details>
+<summary><b>Install in Cline</b></summary>
+
+1. Open Cline.
+2. Click the hamburger menu (☰) to open the side menu.
+3. Go to the **MCP Servers** section.
+4. Switch to the **Installed** tab.
+5. Click on **Configure MCP Servers**.
+6. Add the env0 MCP server to your configuration:
+
+```json
+{
+  "mcpServers": {
+    "env0": {
+      "command": "docker",
+      "args": [
+        "run", "-i", "--rm",
+        "-e", "ENV0_API_KEY=your-api-key-here",
+        "-e", "ENV0_API_SECRET=your-api-secret-here",
+        "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
+        "env0/mcp-server"
+      ]
+    }
+  }
+}
+```
+
+</details>
+
+<details>
 <summary><b>Install in Zed</b></summary>
 
 Add this to your Zed `settings.json`. See [Zed Context Server docs](https://zed.dev/docs/assistant/context-servers) for more info.
