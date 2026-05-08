@@ -14,16 +14,27 @@ const port = process.env.PORT || 3000;
 export async function startServer(): Promise<void> {
   const isHttpMode = process.argv.includes('--http') || process.env.MCP_TRANSPORT === 'http';
 
-  const config = getAndValidateConfig();
-  const env0Client = new Env0Client(config);
-  const env0Service = new Env0Service(config, env0Client);
+  const serverConfig = getAndValidateConfig();
+  const env0Client = new Env0Client(serverConfig.env0);
+  const env0Service = new Env0Service(serverConfig.env0, env0Client);
 
   const server = createMcpServer(env0Service);
 
   if (isHttpMode) {
     console.log(`Initializing Env0 MCP Server in HTTP mode on port ${port}...`);
-    await startHttpServer(+port, server);
+    console.log(`Auth mode: ${serverConfig.authMode}`);
+    await startHttpServer({
+      port: +port,
+      mcpServer: server,
+      bearerAuthConfig: serverConfig.bearerAuth
+    });
   } else {
+    if (serverConfig.authMode === 'bearer') {
+      console.warn(
+        'Warning: AUTH_MODE=bearer has no effect in stdio mode. ' +
+          'Bearer auth is only applied to HTTP transport.'
+      );
+    }
     const transport = new StdioServerTransport();
     await server.connect(transport);
   }

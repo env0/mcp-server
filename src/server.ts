@@ -1,10 +1,17 @@
 import { randomUUID } from 'node:crypto';
-import express, { type Request, type Response } from 'express';
+import express, { type Request, type RequestHandler, type Response } from 'express';
 import { SSEServerTransport } from '@modelcontextprotocol/sdk/server/sse.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js';
 import { Server } from 'http';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { type BearerAuthConfig, bearerAuth } from './auth/bearer-auth';
+
+export interface HttpServerOptions {
+  port: number;
+  mcpServer: McpServer;
+  bearerAuthConfig?: BearerAuthConfig | undefined;
+}
 
 let httpServer: Server | null = null;
 const transports = {
@@ -12,8 +19,15 @@ const transports = {
   sse: {} as Record<string, SSEServerTransport>
 };
 
-export async function startHttpServer(port: number, mcpServer: McpServer): Promise<void> {
+export async function startHttpServer(options: HttpServerOptions): Promise<void> {
+  const { port, mcpServer, bearerAuthConfig } = options;
   const app = express();
+
+  if (bearerAuthConfig) {
+    const authMiddleware = bearerAuth(bearerAuthConfig);
+    app.use(authMiddleware as RequestHandler);
+    console.log('Bearer token authentication enabled');
+  }
 
   // Parse JSON requests for the Streamable HTTP endpoint only, will break SSE endpoint
   app.use('/mcp', express.json());

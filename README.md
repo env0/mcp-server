@@ -912,10 +912,13 @@ To set up the development environment and test the server:
 
 ## Authentication
 
-To allow the MCP server to connect to Env0's platform, you need to provide your API credentials.
-To create a new API key, please follow (this guide)[https://docs.env0.com/docs/api-keys]
+The server supports two authentication modes, controlled by the `AUTH_MODE` environment variable.
 
-Once you have your API credentials, you can configure them in the MCP server by setting the following environment variables:
+### Basic mode (default)
+
+Each MCP client provides env0 API credentials directly. This is the default behavior and requires no additional configuration.
+
+To create a new API key, please follow [this guide](https://docs.env0.com/docs/api-keys).
 
 ```bash
 export ENV0_API_KEY="your-api-key-id"
@@ -935,6 +938,30 @@ ENV0_API_SECRET=your-api-key-secret-here
 # Your env0 Organization ID (found in your env0 organization settings). This is required if you have multiple organizations
 ENV0_ORGANIZATION_ID=your-organization-id-here
 ```
+
+### Bearer mode (for hosted/enterprise deployments)
+
+In bearer mode, the server holds the env0 API credentials server-side. MCP clients authenticate to the server using JWT bearer tokens validated against your OIDC provider's JWKS endpoint. This is useful for hosted deployments where you don't want to distribute API keys to individual clients.
+
+```bash
+export AUTH_MODE=bearer
+
+# env0 API credentials (server-side only — not exposed to clients)
+export ENV0_API_KEY="your-api-key-id"
+export ENV0_API_SECRET="your-api-key-secret"
+
+# OIDC configuration (provide OIDC_ISSUER or JWKS_URI)
+export OIDC_ISSUER="https://your-idp.example.com"
+# Or set JWKS_URI directly if your provider doesn't use the standard /.well-known/jwks.json path
+# export JWKS_URI="https://your-idp.example.com/.well-known/jwks.json"
+
+# Optional: expected JWT audience claim
+# export AUTH_AUDIENCE="your-audience"
+```
+
+Clients must include an `Authorization: Bearer <token>` header on all HTTP requests. Requests without a valid token receive a `401 Unauthorized` response.
+
+> **Note:** Bearer mode only applies to HTTP transport. In stdio mode, the `AUTH_MODE` setting is ignored since there is no HTTP layer to authenticate.
 
 ## Docker Configuration
 
