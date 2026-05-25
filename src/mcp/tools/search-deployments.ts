@@ -14,9 +14,12 @@ or needs to pick among multiple recent deployments.
 Do NOT use for the latest deployment alone — get-plan-logs or get-error-analysis
 already cover that without needing an ID.
 
-Returns up to 10 deployments by default (raise limit to 25 max). Each entry
-includes id, status, type, timestamps, trigger, comment, resourceCount,
-blueprintRevision.`;
+Returns up to 10 deployments by default (raise limit to 25 max). Sorted newest-first.
+Each entry includes: id, status, type, queuedAt, startedAt, finishedAt, triggerName,
+comment, resourceCount, blueprintRevision, blueprintName, blueprintType, prNumber,
+gitMetadata, planSummary, failedCommand. Set hasMore=true means another page exists.
+
+Prefer filtering via 'statuses' over paging with 'offset'.`;
 
 export function registerSearchDeploymentsTool(server: McpServer, env0Service: Env0Service): void {
   server.registerTool(
