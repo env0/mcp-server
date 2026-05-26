@@ -10,7 +10,7 @@ export function registerGetErrorAnalysisTool(server: McpServer, env0Service: Env
     'get-error-analysis',
     {
       title: 'Get Error Analysis',
-      description: `Analyzes errors in the last environment's deployment`,
+      description: `Analyzes errors in the latest deployment of an environment. For historical deployments use get-deployment-context instead.`,
       inputSchema: GetErrorAnalysisSchema.shape
     },
     async ({ environmentId }: GetErrorAnalysisParams) => {
