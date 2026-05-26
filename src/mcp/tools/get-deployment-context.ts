@@ -5,12 +5,14 @@ import {
   GetDeploymentContextParamsSchema
 } from '../schemas/get-deployment-context-schema';
 
-const DESCRIPTION = `Fetch full debug context for one specific deployment: metadata, all step
-statuses, and the log of the most relevant step (auto-picks the failed
-step; falls back to the plan step on success).
+const DESCRIPTION = `Fetch debug context for one specific deployment: metadata, all step
+statuses, and the log of the first failed step (auto-picked: status
+FAIL or TIMEOUT). Returns log:null on clean success — pass an explicit
+stepName to inspect a successful step.
 
 Use when: user asks why a past deployment failed, names a deploymentLogId,
-or wants to inspect a non-plan step (apply, destroy, custom flow).
+or wants to inspect a specific step (apply, destroy, custom flow) of a
+historical deployment.
 
 Do NOT use for the latest deployment's plan log — use get-plan-logs
 (no deploymentLogId needed, cheaper). For an error summary use
@@ -18,13 +20,11 @@ get-error-analysis.
 
 deploymentLogId is REQUIRED. Use search-deployments first to find one.
 
-Returns { deployment, steps, log }. log is null only for workflow envs
-or when no plan-equivalent step exists. selectionReason in log explains
-which step was picked: "explicit" | "failed-step" | "plan-step-fallback".
-
-Common pitfalls: stepName 'state:get' is blocked. Step names look like
-'tf:plan', 'tf:apply', 'terragrunt:plan', 'pulumi:preview' — call without
-stepName to auto-pick.
+Returns { deployment, steps, log }. log is { stepName, events, truncated }
+or null when no failed step exists and no stepName was given. Step names
+look like 'tf:plan', 'tf:apply', 'opentofu:plan', 'terragrunt:plan',
+'pulumi:preview', 'helm:diff', 'k8s:apply', 'git:clone', 'spec:load'.
+Targeting a NOT_STARTED step returns 400.
 
 Example chain:
   search-deployments(envId, statuses="FAILURE")

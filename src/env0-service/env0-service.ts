@@ -157,7 +157,7 @@ export class Env0Service {
     stepName
   }: GetDeploymentContextParams): Promise<object> {
     return this.env0Client.request({
-      url: `/mcp/deployments/${deploymentLogId}/context`,
+      url: `/mcp/deployments/${deploymentLogId}`,
       params: { stepName: stepName || undefined }
     });
   }

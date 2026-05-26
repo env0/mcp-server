@@ -10,7 +10,7 @@ export const GetDeploymentContextParamsSchema = z.object({
     .string()
     .optional()
     .describe(
-      "Omit to auto-pick (failed step preferred, falls back to plan step). Common values: 'tf:plan', 'tf:apply', 'opentofu:plan', 'terragrunt:plan', 'pulumi:preview'. 'state:get' is blocked."
+      "Omit to auto-pick the first failed step (status FAIL or TIMEOUT); returns log:null if no failure. Common values: 'tf:plan', 'tf:apply', 'opentofu:plan', 'terragrunt:plan', 'pulumi:preview', 'helm:diff', 'k8s:apply', 'cf:change-set', 'ansible:playbook', 'git:clone', 'spec:load'. Cannot target a NOT_STARTED step."
     )
 });
 
