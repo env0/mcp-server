@@ -804,6 +804,15 @@ Analyze errors from the last environment deployment.
   - `environmentId` (required): The environment ID to analyze errors for
 - **Usage**: "Analyze errors for environment xyz" or "What went wrong with my last deployment?"
 
+### **get-deployment-context**
+Fetch full debug context for one specific (historical) deployment: metadata, all step statuses, and the log of the most relevant step (auto-picks the failed step; falls back to the plan step on success).
+- **Description**: Debug a past deployment by ID — metadata + steps + auto-picked step log
+- **Parameters**:
+  - `deploymentLogId` (required): The deployment to inspect. Use `search-deployments` first to find one.
+  - `stepName` (optional): Inspect a specific step (e.g., `tf:apply`, `tf:destroy`). Omit to auto-pick (failed step preferred, falls back to plan step).
+- **Note**: For the *latest* deployment's plan log, prefer `get-plan-logs` (no ID needed). For an error summary, prefer `get-error-analysis`. `state:get` is blocked.
+- **Usage**: "Why did the deployment from yesterday on env X fail?" → chain via `search-deployments` then this tool.
+
 </details>
 
 <details>
@@ -874,6 +883,8 @@ Here are some example natural language queries you can use with the MCP server:
 - "Show me the plan logs for my production environment"
 - "What's the status of environment abc123?"
 - "Analyze errors for environment xyz" or "What went wrong with my last deployment?"
+- "Why did the deployment from yesterday on env xyz fail?" (chains `search-deployments` → `get-deployment-context`)
+- "Show me the apply log for deployment abc123"
 
 **Cloud Resources:**
 - "Show me all my AWS resources"
