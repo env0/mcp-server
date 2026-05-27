@@ -11,6 +11,7 @@ import type { GetCloudResourcesParams } from '../mcp/schemas/get-cloud-resources
 import type { GetPlanLogsParams } from '../mcp/schemas/get-plan-logs-params-schema';
 import type { GenerateIaCParams } from '../mcp/schemas/generate-iac-schema';
 import type { CheckIaCJobStatusParams } from '../mcp/schemas/check-iac-job-status-schema';
+import type { SearchDeploymentsParams } from '../mcp/schemas/search-deployments-schema';
 
 export class Env0Service {
   private readonly config: Env0Config;
@@ -131,6 +132,22 @@ export class Env0Service {
   async getPlanLogs({ environmentId }: GetPlanLogsParams): Promise<object> {
     return this.env0Client.request({
       url: `/mcp/environments/${environmentId}/plan/logs`
+    });
+  }
+
+  async searchDeployments({
+    environmentId,
+    statuses,
+    limit,
+    offset
+  }: SearchDeploymentsParams): Promise<object> {
+    return this.env0Client.request({
+      url: `/mcp/environments/${environmentId}/deployments`,
+      params: {
+        statuses: statuses || undefined,
+        limit: limit || undefined,
+        offset: offset ?? undefined
+      }
     });
   }
 }
