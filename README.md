@@ -977,21 +977,31 @@ The container supports both MCP transport modes:
 
 #### 2. HTTP Transport
 
-- For remote MCP server access
+- For remote MCP server access (self-host once, serve many users)
 - Set `MCP_TRANSPORT` environment variable to `http` to enable
+- **Credentials are provided per-client via request headers, not server env vars.** Each client acts under its own env0 API key (and therefore its own RBAC role), so the server holds no shared key:
 
 ```bash
+# No ENV0_API_KEY / ENV0_API_SECRET needed on the server in HTTP mode
 docker run -d -p 3000:3000 -e PORT=3000 -e MCP_TRANSPORT=http env0/mcp-server
 ```
 
-Then, configure your MCP client to use the HTTP transport mode:
+Then, configure your MCP client to send its credentials as headers:
 
 ```json
 {
   "mcpServers": {
     "env0": {
-      "serverUrl": "http://localhost:3000/mcp"
+      "url": "http://localhost:3000/mcp",
+      "headers": {
+        "Authorization": "Basic <base64(apiKeyId:apiKeySecret)>",
+        "x-env0-organization-id": "your-org-id-here"
+      }
     }
   }
 }
 ```
+
+The `Authorization` header is forwarded verbatim to the env0 API. Requests without it are rejected with `401 Unauthorized`. (`ENV0_API_URL` may still be set on the server to target a non-default env0 API.)
+
+> ⚠️ **Run behind TLS.** Remote HTTP mode sends env0 API keys per request. You should run behind TLS (reverse proxy / LB). Do not expose the plain HTTP port to a network.
