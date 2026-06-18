@@ -11,8 +11,34 @@ const transports = {
   streamable: {} as Record<string, StreamableHTTPServerTransport>,
   sse: {} as Record<string, SSEServerTransport>
 };
+// Per-session MCP servers, each bound to that client's forwarded credentials
+const servers = {
+  streamable: {} as Record<string, McpServer>,
+  sse: {} as Record<string, McpServer>
+};
 
-export async function startHttpServer(port: number, mcpServer: McpServer): Promise<void> {
+// Builds an MCP server bound to the credentials in the request headers.
+// Returns null (and writes a 401) when the Authorization header is missing.
+// eslint-disable-next-line no-unused-vars
+export type McpServerFactory = (requestHeaders: Request['headers']) => McpServer;
+
+function buildSessionServer(
+  req: Request,
+  res: Response,
+  createServer: McpServerFactory
+): McpServer | null {
+  if (!req.headers.authorization) {
+    res.status(401).json({
+      jsonrpc: '2.0',
+      error: { code: -32001, message: 'Unauthorized: missing Authorization header' },
+      id: null
+    });
+    return null;
+  }
+  return createServer(req.headers);
+}
+
+export async function startHttpServer(port: number, createServer: McpServerFactory): Promise<void> {
   const app = express();
 
   // Parse JSON requests for the Streamable HTTP endpoint only, will break SSE endpoint
@@ -23,21 +49,28 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
     const sessionId = req.headers['mcp-session-id'] as string | undefined;
 
     let transport: StreamableHTTPServerTransport;
+    let mcpServer: McpServer;
 
     if (sessionId && transports.streamable[sessionId]) {
       console.log('Reusing existing StreamableHTTP transport for sessionId', sessionId);
       transport = transports.streamable[sessionId];
+      mcpServer = servers.streamable[sessionId]!;
     } else if (!sessionId && isInitializeRequest(req.body)) {
       console.log('New initialization request for StreamableHTTP sessionId', sessionId);
+      const sessionServer = buildSessionServer(req, res, createServer);
+      if (!sessionServer) return;
+      mcpServer = sessionServer;
       transport = new StreamableHTTPServerTransport({
         sessionIdGenerator: () => randomUUID(),
         onsessioninitialized: sessionId => {
           transports.streamable[sessionId] = transport;
+          servers.streamable[sessionId] = mcpServer;
         }
       });
       transport.onclose = () => {
         if (transport.sessionId) {
           delete transports.streamable[transport.sessionId];
+          delete servers.streamable[transport.sessionId];
         }
       };
       await mcpServer.connect(transport);
@@ -113,14 +146,16 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
 
   app.get('/sse', async (req, res): Promise<void> => {
     console.log('Establishing new SSE connection');
+    const mcpServer = buildSessionServer(req, res, createServer);
+    if (!mcpServer) return;
     const transport = new SSEServerTransport('/messages', res);
     console.log(`New SSE connection established for sessionId ${transport.sessionId}`);
-    console.log('/sse request headers:', req.headers);
-    console.log('/sse request body:', req.body);
 
     transports.sse[transport.sessionId] = transport;
+    servers.sse[transport.sessionId] = mcpServer;
     res.on('close', () => {
       delete transports.sse[transport.sessionId];
+      delete servers.sse[transport.sessionId];
     });
 
     await mcpServer.connect(transport);
