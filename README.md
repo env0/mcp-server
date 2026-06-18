@@ -1003,3 +1003,5 @@ Then, configure your MCP client to send its credentials as headers:
 ```
 
 The `Authorization` header is forwarded verbatim to the env0 API. Requests without it are rejected with `401 Unauthorized`. (`ENV0_API_URL` may still be set on the server to target a non-default env0 API.)
+
+> ⚠️ **Run behind TLS.** Remote HTTP mode sends env0 API keys per request. You should run behind TLS (reverse proxy / LB). Do not expose the plain HTTP port to a network.
