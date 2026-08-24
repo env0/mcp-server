@@ -5,30 +5,26 @@ on:
     branches:
       - main
 
+concurrency:
+  group: release-please-main
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
 jobs:
-  release-please:
+  release-pr:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    permissions:
-      contents: write
-      pull-requests: write
-    outputs:
-      release_created: ${{ steps.release.outputs.release_created }}
-      tag_name: ${{ steps.release.outputs.tag_name }}
     steps:
-      - uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5
-        id: release
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-  build-and-deploy:
-    needs: release-please
-    if: needs.release-please.outputs.release_created == 'true'
-    uses: ./.github/workflows/build-and-deploy.yml
-    with:
-      ref: ${{ needs.release-please.outputs.tag_name }}
-      docker_tag: ${{ needs.release-please.outputs.tag_name }}
-    secrets: inherit
+          app-id: ${{ secrets.EZ_APP_ID }}
+          private-key: ${{ secrets.EZ_APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+      - uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5
+        with:
+          token: ${{ steps.app-token.outputs.token }}
