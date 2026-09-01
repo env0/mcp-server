@@ -7,7 +7,7 @@
     "build": "tsc",
     "start": "tsx src/cli.ts",
     "dev": "tsx watch src/cli.ts",
-    "test": "npm test",
+    "test": "tsx --test src/**/*.test.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
