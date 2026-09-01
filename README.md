@@ -105,13 +105,27 @@ Add this to your VS Code MCP config file. See [VS Code MCP docs](https://code.vi
         "command": "docker",
         "args": [
           "run", "-i", "--rm",
-          "-e", "ENV0_API_KEY=your-api-key-here",
-          "-e", "ENV0_API_SECRET=your-api-secret-here",
+          "-e", "ENV0_API_KEY=${input:ENV0_API_KEY}",
+          "-e", "ENV0_API_SECRET=${input:ENV0_API_SECRET}",
           "-e", "ENV0_ORGANIZATION_ID=your-org-id-here",
           "env0/mcp-server"
         ]
       }
-    }
+    },
+    "inputs": [
+  		{
+  			"type": "promptString",
+  			"id": "ENV0_API_KEY",
+  			"description": "Env0 API Key",
+  			"password": true
+  		},
+  		{
+  			"type": "promptString",
+  			"id": "ENV0_API_SECRET",
+  			"description": "Env0 API Secret",
+  			"password": true
+  		}
+  	]
   }
 }
 ```
