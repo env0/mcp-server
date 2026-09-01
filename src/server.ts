@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 import express, { type Request, type Response } from 'express';
 import { SSEServerTransport } from '@modelcontextprotocol/sdk/server/sse.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
+import type { Transport } from '@modelcontextprotocol/sdk/shared/transport.js';
 import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js';
 import { Server } from 'http';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
@@ -40,7 +41,9 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
           delete transports.streamable[transport.sessionId];
         }
       };
-      await mcpServer.connect(transport);
+      // ponytail: SDK 1.26's StreamableHTTPServerTransport types onclose as `() => void | undefined`,
+      // which trips our exactOptionalPropertyTypes; cast since it is a valid Transport.
+      await mcpServer.connect(transport as Transport);
     } else {
       // Invalid request
       console.log('Invalid request:', req.body);

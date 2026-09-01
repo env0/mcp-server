@@ -1,4 +1,4 @@
-import z from 'zod';
+import z from 'zod/v3';
 
 const cloudProviderEnum = z.enum(['AWS', 'GCP', 'AzureLAW']);
 const baseEQPattern = z.object({

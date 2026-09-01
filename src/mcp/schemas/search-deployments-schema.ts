@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod/v3';
 
 export const SearchDeploymentsParamsSchema = z.object({
   environmentId: z.string().describe('The ID of the environment to list deployments for'),
