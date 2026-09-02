@@ -27,10 +27,13 @@ export const GetCloudResourcesParamsSchema = z.object({
     })
     .optional(),
   filters: z.object({
-    cloudConfigurationId: optionalEQPattern.describe(
-      'The cloud configuration ID, can be found using the Cloud Configurations tool. ' +
-        'Scopes the search to a single cloud configuration'
-    ),
+    cloudConfigurationId: z
+      .object({ eq: z.string() })
+      .optional()
+      .describe(
+        'The cloud configuration ID, can be found using the Cloud Configurations tool. ' +
+          'Scopes the search to a single cloud configuration'
+      ),
     cloudProvider: z
       .object({ eq: cloudProviderEnum })
       .optional()
