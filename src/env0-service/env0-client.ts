@@ -5,13 +5,17 @@ export interface Env0Config {
   apiUrl: string;
   apiKeyId: string;
   apiKeySecret: string;
+  // ponytail: forwarded verbatim (HTTP per-client mode); falls back to id:secret Basic
+  authHeader?: string;
 }
 
 export class Env0Client {
   private readonly client: AxiosInstance;
 
   constructor(config: Env0Config) {
-    const authHeader = `Basic ${Buffer.from(`${config.apiKeyId}:${config.apiKeySecret}`).toString('base64')}`;
+    const authHeader =
+      config.authHeader ??
+      `Basic ${Buffer.from(`${config.apiKeyId}:${config.apiKeySecret}`).toString('base64')}`;
 
     this.client = axios.create({
       baseURL: config.apiUrl,
