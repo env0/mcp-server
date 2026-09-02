@@ -43,6 +43,15 @@ describe('getCloudResources', () => {
     await assert.rejects(service.getCloudResources({ filters: {} }), /AWS, GCP/);
   });
 
+  it('says so when the organization has no cloud configurations', async () => {
+    const { service } = buildService([]);
+
+    await assert.rejects(
+      service.getCloudResources({ filters: {} }),
+      /No cloud configurations found/
+    );
+  });
+
   it('keeps the search as is when it already has a configuration ID', async () => {
     const { service, requests } = buildService(['AWS']);
     const filters = { cloudConfigurationId: { eq: 'config-1' } };
