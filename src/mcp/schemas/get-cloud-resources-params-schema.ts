@@ -27,18 +27,19 @@ export const GetCloudResourcesParamsSchema = z.object({
     })
     .optional(),
   filters: z.object({
-    cloudConfigurationId: optionalEQPattern.describe(
-      'The cloud configuration ID, can be found using the Cloud Configurations tool. ' +
-        "It's required that you provide either a configuration ID or a cloud provider"
-    ),
-    cloudProvider: z
-      .object({
-        eq: cloudProviderEnum.optional(),
-        in: z.array(cloudProviderEnum).optional()
-      })
+    cloudConfigurationId: z
+      .object({ eq: z.string() })
       .optional()
       .describe(
-        "The cloud provider ID. It's required that you provide either a configuration ID or a cloud provider"
+        'The cloud configuration ID, can be found using the Cloud Configurations tool. ' +
+          'Scopes the search to a single cloud configuration'
+      ),
+    cloudProvider: z
+      .object({ eq: cloudProviderEnum })
+      .optional()
+      .describe(
+        'The cloud provider to search in. Defaults to the only provider the organization has, ' +
+          'so it is only needed when the organization has more than one and no configuration ID is given'
       ),
     managementType: optionalEQPattern.describe(
       'An Optional filter for a specific IaC management type, ' +

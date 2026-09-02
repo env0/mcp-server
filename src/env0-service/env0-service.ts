@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import type { AbortEnvironmentParams } from '../mcp/schemas/abort-environment-schema';
 import type { ApproveEnvironmentParams } from '../mcp/schemas/approve-environment-schema';
 import type { CancelEnvironmentParams } from '../mcp/schemas/cancel-environment-schema';
@@ -50,14 +51,39 @@ export class Env0Service {
   }
 
   async getCloudResources(params: GetCloudResourcesParams): Promise<CloudResourcesResponse> {
+    const filters = await this.withCloudProvider(params.filters);
+
     return this.env0Client.request<CloudResourcesResponse>({
       url: '/mcp/cloud/resources',
       method: 'POST',
       data: {
         organizationId: this.config.organizationId || undefined,
-        ...params
+        ...params,
+        filters
       }
     });
+  }
+
+  // The API rejects a search that has neither cloudConfigurationId nor cloudProvider, and callers often send neither.
+  private async withCloudProvider(
+    filters: GetCloudResourcesParams['filters']
+  ): Promise<GetCloudResourcesParams['filters']> {
+    if (filters.cloudConfigurationId?.eq || filters.cloudProvider?.eq) return filters;
+
+    const providers = _.uniq((await this.getCloudConfigurations()).map(({ provider }) => provider));
+    const [provider] = providers;
+
+    if (!provider) {
+      throw new Error('No cloud configurations found for this organization.');
+    }
+
+    if (providers.length > 1) {
+      throw new Error(
+        `Set filters.cloudProvider.eq to one of: ${providers.join(', ')}, or set filters.cloudConfigurationId.eq.`
+      );
+    }
+
+    return { ...filters, cloudProvider: { eq: provider } };
   }
 
   async getProjects(): Promise<object[]> {
