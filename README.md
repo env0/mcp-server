@@ -916,7 +916,7 @@ To set up the development environment and test the server:
    Use the MCP Inspector tool for testing and debugging:
 
    ```bash
-   npx @modelcontextprotocol/inspector npm start
+   npx @modelcontextprotocol/inspector npx tsx src/cli.ts
    ```
 
    This will open a web interface at http://localhost:6274 where you can interact with the MCP server and test its capabilities.

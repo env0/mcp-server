@@ -8,7 +8,7 @@ import Env0Client from './env0-service/env0-client';
 import { Env0Service } from './env0-service/env0-service';
 
 // Load .env from the current working directory
-config({ path: resolve(process.cwd(), '.env') });
+config({ path: resolve(process.cwd(), '.env'), quiet: true });
 const port = process.env.PORT || 3000;
 
 export async function startServer(): Promise<void> {

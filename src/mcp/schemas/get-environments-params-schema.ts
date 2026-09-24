@@ -1,4 +1,4 @@
-import z from 'zod';
+import z from 'zod/v3';
 
 export const GetEnvironmentsParamsSchema = z.object({
   projectId: z.string().optional().describe('The ID of the project to get environments for'),

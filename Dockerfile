@@ -45,9 +45,12 @@ USER nodejs
 
 # Environment variables
 ENV NODE_ENV=production
+ENV NPM_CONFIG_UPDATE_NOTIFIER=false
 
 # Use dumb-init to handle signals properly
 ENTRYPOINT ["dumb-init", "--"]
 
 # Default command - stdio mode for MCP clients
-CMD ["npm", "start"]
+# Run tsx directly (not via npm) so npm's script echo doesn't pollute stdout,
+# which must carry only JSON-RPC for the MCP stdio transport
+CMD ["npx", "tsx", "src/cli.ts"]

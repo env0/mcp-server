@@ -8,3 +8,4 @@ package-lock.json
 *.tgz
 *.tar.gz
 README.md
+CHANGELOG.md
