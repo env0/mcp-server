@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.3](https://github.com/env0/mcp-server/compare/1.1.2...1.1.3) (2026-09-27)
+
+
+### Bug Fixes
+
+* Clarify cancel-environment vs abort-environment tool descriptions ([#78](https://github.com/env0/mcp-server/issues/78)) ([698e2a3](https://github.com/env0/mcp-server/commit/698e2a312a4db688caeba549c4489b8bd92b4e84))
+
 ## [1.1.2](https://github.com/env0/mcp-server/compare/1.1.1...1.1.2) (2026-09-02)
 
 
