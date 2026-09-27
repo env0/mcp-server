@@ -10,7 +10,8 @@ export function registerAbortEnvironmentTool(server: McpServer, env0Service: Env
     'abort-environment',
     {
       title: 'Abort Environment',
-      description: 'Abort an environment',
+      description:
+        "Forcefully stop an environment's latest deployment while it is in progress. To cancel a deployment that is still queued or waiting for user approval, use cancel-environment instead.",
       inputSchema: AbortEnvironmentSchema.shape
     },
     async (params: AbortEnvironmentParams) => {

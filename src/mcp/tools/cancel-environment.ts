@@ -10,7 +10,8 @@ export function registerCancelEnvironmentTool(server: McpServer, env0Service: En
     'cancel-environment',
     {
       title: 'Cancel Environment',
-      description: 'Cancel an environment',
+      description:
+        "Cancel an environment's latest deployment while it is still queued or waiting for user approval. No changes are applied. To stop a deployment that is already in progress, use abort-environment instead.",
       inputSchema: CancelEnvironmentSchema.shape
     },
     async (params: CancelEnvironmentParams) => {

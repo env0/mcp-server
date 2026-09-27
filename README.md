@@ -764,11 +764,11 @@ Create a new deployment for an existing environment.
 - **Usage**: "Deploy environment xyz" or "Deploy the latest version of my staging environment"
 
 ### **abort-environment**
-Abort a running environment's deployment.
-- **Description**: Abort an environment's current deployment
+Forcefully stop a deployment that is already in progress.
+- **Description**: Forcefully stops the environment's latest deployment while it is in progress. If the deployment is still queued or waiting for user approval, use `cancel-environment` instead.
 - **Parameters**:
   - `environmentId` (required): The environment ID to abort
-- **Usage**: "Abort the deployment of environment xyz"
+- **Usage**: "Abort the running deployment of environment xyz"
 
 ### **approve-environment**
 Approve an environment plan, pending approval for applying.
@@ -778,11 +778,11 @@ Approve an environment plan, pending approval for applying.
 - **Usage**: "Approve environment xyz"
 
 ### **cancel-environment**
-Cancel an environment plan, pending user approval.
-- **Description**: Cancel an environment plan that is pending user approval.
+Cancel a deployment that has not started running yet.
+- **Description**: Cancels the environment's latest deployment while it is still queued or waiting for user approval, before any changes are applied. If the deployment is already in progress, use `abort-environment` instead.
 - **Parameters**:
   - `environmentId` (required): The environment ID to cancel
-- **Usage**: "Cancel environment xyz"
+- **Usage**: "Cancel the pending deployment of environment xyz"
 
 </details>
 
