@@ -1,5 +1,5 @@
 # Multi-stage build for TypeScript MCP Server
-FROM node:22.16.0-alpine AS base
+FROM node:22.23.4-alpine3.24 AS base
 
 # Install dumb-init for proper signal handling
 RUN apk add --no-cache dumb-init
