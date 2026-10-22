@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.1.5](https://github.com/env0/mcp-server/compare/1.1.4...1.1.5) (2026-10-22)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency @modelcontextprotocol/sdk to v1.32.0 [SECURITY] ([#91](https://github.com/env0/mcp-server/issues/91)) ([82efa81](https://github.com/env0/mcp-server/commit/82efa81e10b51ee58cc7939bd2cc996203c50aeb))
+* **deps:** Update dependency axios to v1.20.0 [SECURITY] ([#92](https://github.com/env0/mcp-server/issues/92)) ([b23c5e3](https://github.com/env0/mcp-server/commit/b23c5e36c0e7cfabf9eff0173a07d8e8f934bfa0))
+* **deps:** Update dependency morgan to v1.12.1 [SECURITY] ([#93](https://github.com/env0/mcp-server/issues/93)) ([8656d4c](https://github.com/env0/mcp-server/commit/8656d4c368c4e33e222d094cae361571ad3fe565))
+* **deps:** Update Node.js to v24 ([#95](https://github.com/env0/mcp-server/issues/95)) ([e9ecd24](https://github.com/env0/mcp-server/commit/e9ecd247942224b14750702dee7e558092b145db))
+
 ## [1.1.4](https://github.com/env0/mcp-server/compare/1.1.3...1.1.4) (2026-10-22)
 
 
