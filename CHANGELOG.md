@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.4](https://github.com/env0/mcp-server/compare/1.1.3...1.1.4) (2026-10-22)
+
+
+### Bug Fixes
+
+* **deps:** Update Node.js to v22.23.4 ([#94](https://github.com/env0/mcp-server/issues/94)) ([74953d4](https://github.com/env0/mcp-server/commit/74953d47744ad3a5440a1622ac04438110e1f43f))
+
 ## [1.1.3](https://github.com/env0/mcp-server/compare/1.1.2...1.1.3) (2026-09-27)
 
 
