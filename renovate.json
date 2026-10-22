@@ -1,0 +1,39 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", "helpers:pinGitHubActionDigests", "docker:pinDigests"],
+  "semanticCommits": "disabled",
+  "commitMessagePrefix": "fix(deps): ",
+  "minimumReleaseAge": "3 days",
+  "timezone": "Asia/Jerusalem",
+  "schedule": ["before 6am on sunday"],
+  "prCreation": "immediate",
+  "prHourlyLimit": 5,
+  "labels": ["renovate 🎨"],
+  "vulnerabilityAlerts": {
+    "schedule": ["at any time"],
+    "minimumReleaseAge": null,
+    "groupName": null,
+    "labels": ["renovate 🎨", "security"]
+  },
+  "osvVulnerabilityAlerts": true,
+  "packageRules": [
+    {
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions",
+      "commitMessagePrefix": "chore(deps): "
+    },
+    {
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "groupName": "non-major"
+    },
+    {
+      "description": "Node.js bundles its own root CA list, so the Dockerfile image and .nvmrc move together and as soon as a release ships, e.g. the eMudhra CA fix in 22.23.4.",
+      "matchDepNames": ["node"],
+      "matchManagers": ["dockerfile", "nvm"],
+      "groupName": "Node.js",
+      "schedule": ["at any time"],
+      "minimumReleaseAge": null
+    }
+  ]
+}
