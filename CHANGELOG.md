@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.1.6](https://github.com/env0/mcp-server/compare/1.1.5...1.1.6) (2026-10-27)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dotenv to v18 ([#104](https://github.com/env0/mcp-server/issues/104)) ([f595b73](https://github.com/env0/mcp-server/commit/f595b7324623762a9a0152062b89cc8b23de18a5))
+* **deps:** Update dependency eslint to v10 ([#105](https://github.com/env0/mcp-server/issues/105)) ([49ac48c](https://github.com/env0/mcp-server/commit/49ac48c1be3d5469294e40a49d0dc514f27a9951))
+* **deps:** Update dependency zod to v4 [SECURITY] ([#100](https://github.com/env0/mcp-server/issues/100)) ([a2a465b](https://github.com/env0/mcp-server/commit/a2a465bc7c9ce6fb5668eb980b982e2f64ce2f83))
+* **deps:** Update non-major ([#102](https://github.com/env0/mcp-server/issues/102)) ([df3fde5](https://github.com/env0/mcp-server/commit/df3fde5bd85d45f1c747b9beacafb89120e0f556))
+
 ## [1.1.5](https://github.com/env0/mcp-server/compare/1.1.4...1.1.5) (2026-10-22)
 
 
