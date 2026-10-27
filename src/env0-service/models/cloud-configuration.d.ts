@@ -23,9 +23,7 @@ export type GcpCloudConfiguration = {
 };
 
 export type CloudConfigurationData =
-  | AWSCloudConfiguration
-  | AzureLawCloudConfiguration
-  | GcpCloudConfiguration;
+  AWSCloudConfiguration | AzureLawCloudConfiguration | GcpCloudConfiguration;
 
 export type CloudConfigurationScan = {
   startedAt: Date;
