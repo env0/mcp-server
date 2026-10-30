@@ -138,7 +138,7 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
       console.log('/messages request body:', req.body);
       await transport.handlePostMessage(req, res);
     } else {
-      res.status(400).send(`No transport found for sessionId ${sessionId}`);
+      res.status(400).send('No transport found for sessionId');
       return;
     }
   });
