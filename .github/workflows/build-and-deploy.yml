@@ -20,6 +20,9 @@ env:
   IMAGE_NAME: env0/mcp-server
   DOCKER_TAG: ${{ inputs.docker_tag || github.event.release.tag_name || 'beta' }}
 
+permissions:
+  contents: read
+
 jobs:
   lint:
     uses: ./.github/workflows/lint.yml
