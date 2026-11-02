@@ -13,7 +13,7 @@ const transports = {
   sse: {} as Record<string, SSEServerTransport>
 };
 
-export async function startHttpServer(port: number, mcpServer: McpServer): Promise<void> {
+export async function startHttpServer(port: number, mcpServer: McpServer): Promise<Server> {
   const app = express();
 
   // Parse JSON requests for the Streamable HTTP endpoint only, will break SSE endpoint
@@ -143,12 +143,16 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
     }
   });
 
-  httpServer = app.listen(port, () => {
-    console.log(`HTTP server listening on port ${port}`);
-    console.log(`SSE endpoint available at http://localhost:${port}/sse`);
-    console.log(`Message endpoint available at http://localhost:${port}/messages`);
-    console.log(`StreamableHTTP endpoint available at http://localhost:${port}/mcp`);
+  const server = await new Promise<Server>(resolve => {
+    const listeningServer = app.listen(port, () => {
+      console.log(`HTTP server listening on port ${port}`);
+      console.log(`SSE endpoint available at http://localhost:${port}/sse`);
+      console.log(`Message endpoint available at http://localhost:${port}/messages`);
+      console.log(`StreamableHTTP endpoint available at http://localhost:${port}/mcp`);
+      resolve(listeningServer);
+    });
   });
+  httpServer = server;
 
   process.on('SIGINT', async () => {
     console.log('Shutting down server...');
@@ -167,6 +171,8 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
     console.log('Server shutdown complete');
     process.exit(0);
   });
+
+  return server;
 }
 
 async function closeTransports(
