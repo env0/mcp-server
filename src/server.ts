@@ -26,10 +26,10 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
     let transport: StreamableHTTPServerTransport;
 
     if (sessionId && transports.streamable[sessionId]) {
-      console.log('Reusing existing StreamableHTTP transport for sessionId', sessionId);
+      console.log('Reusing existing StreamableHTTP transport');
       transport = transports.streamable[sessionId];
     } else if (!sessionId && isInitializeRequest(req.body)) {
-      console.log('New initialization request for StreamableHTTP sessionId', sessionId);
+      console.log('New initialization request for StreamableHTTP');
       transport = new StreamableHTTPServerTransport({
         sessionIdGenerator: () => randomUUID(),
         onsessioninitialized: sessionId => {
@@ -46,7 +46,7 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
       await mcpServer.connect(transport as Transport);
     } else {
       // Invalid request
-      console.log('Invalid request:', req.body);
+      console.log('Invalid request');
       res.status(400).json({
         jsonrpc: '2.0',
         error: {
@@ -62,9 +62,7 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
     const progressToken = req.body.params?._meta?.progressToken;
     let progress = 0;
     if (progressToken) {
-      console.log(
-        `Setting up progress notifications for token ${progressToken} on session ${sessionId}`
-      );
+      console.log('Setting up progress notifications');
       progressInterval = setInterval(async () => {
         console.log('Sending progress notification', progress);
         await mcpServer.server.notification({
@@ -95,7 +93,7 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
       return;
     }
 
-    console.log(`Received session termination request for session ${sessionId}`);
+    console.log('Received session termination request');
 
     try {
       const transport = transports.streamable[sessionId];
@@ -117,9 +115,7 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
   app.get('/sse', async (req, res): Promise<void> => {
     console.log('Establishing new SSE connection');
     const transport = new SSEServerTransport('/messages', res);
-    console.log(`New SSE connection established for sessionId ${transport.sessionId}`);
-    console.log('/sse request headers:', req.headers);
-    console.log('/sse request body:', req.body);
+    console.log('New SSE connection established');
 
     transports.sse[transport.sessionId] = transport;
     res.on('close', () => {
@@ -133,9 +129,7 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
     const sessionId = req.query.sessionId as string;
     const transport = transports.sse[sessionId];
     if (transport) {
-      console.log(`Received SSE message for sessionId ${sessionId}`);
-      console.log('/messages request headers:', req.headers);
-      console.log('/messages request body:', req.body);
+      console.log('Received SSE message');
       await transport.handlePostMessage(req, res);
     } else {
       res.status(400).send('No transport found for sessionId');
@@ -183,7 +177,7 @@ async function closeTransports(
       await transports[sessionId]?.close();
       delete transports[sessionId];
     } catch (error) {
-      console.error(`Error closing transport for session ${sessionId}:`, error);
+      console.error('Error closing transport:', error);
     }
   }
 }
