@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.7](https://github.com/env0/mcp-server/compare/1.1.6...1.1.7) (2026-11-02)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency @types/node to v26 ([#116](https://github.com/env0/mcp-server/issues/116)) ([28bb4dd](https://github.com/env0/mcp-server/commit/28bb4dd93a5dd793571183cfe034db15ab1608f8))
+* Stop exposing session IDs and request data in responses and logs ([#114](https://github.com/env0/mcp-server/issues/114)) ([eee2b49](https://github.com/env0/mcp-server/commit/eee2b49bd22deef440a14cfb1ffcb10adb5f9553))
+
 ## [1.1.6](https://github.com/env0/mcp-server/compare/1.1.5...1.1.6) (2026-10-27)
 
 
