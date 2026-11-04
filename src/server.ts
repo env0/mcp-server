@@ -12,8 +12,12 @@ const transports = {
   streamable: {} as Record<string, StreamableHTTPServerTransport>,
   sse: {} as Record<string, SSEServerTransport>
 };
+// An McpServer can only be connected to one transport at a time, so each
+// session gets its own instance. When the transport closes the SDK detaches it,
+// and the per-session server is garbage-collected with it.
+const sessionServers = new WeakMap<Transport, McpServer>();
 
-export async function startHttpServer(port: number, mcpServer: McpServer): Promise<Server> {
+export async function startHttpServer(port: number, createMcpServer: () => McpServer): Promise<Server> {
   const app = express();
 
   // Parse JSON requests for the Streamable HTTP endpoint only, will break SSE endpoint
@@ -24,12 +28,16 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
     const sessionId = req.headers['mcp-session-id'] as string | undefined;
 
     let transport: StreamableHTTPServerTransport;
+    let mcpServer: McpServer;
 
     if (sessionId && transports.streamable[sessionId]) {
       console.log('Reusing existing StreamableHTTP transport');
       transport = transports.streamable[sessionId];
+      mcpServer = sessionServers.get(transport as Transport)!;
     } else if (!sessionId && isInitializeRequest(req.body)) {
       console.log('New initialization request for StreamableHTTP');
+      mcpServer = createMcpServer();
+      const sessionServer = mcpServer;
       transport = new StreamableHTTPServerTransport({
         sessionIdGenerator: () => randomUUID(),
         onsessioninitialized: sessionId => {
@@ -41,9 +49,10 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
           delete transports.streamable[transport.sessionId];
         }
       };
+      sessionServers.set(transport as Transport, sessionServer);
       // ponytail: SDK 1.26's StreamableHTTPServerTransport types onclose as `() => void | undefined`,
       // which trips our exactOptionalPropertyTypes; cast since it is a valid Transport.
-      await mcpServer.connect(transport as Transport);
+      await sessionServer.connect(transport as Transport);
     } else {
       // Invalid request
       console.log('Invalid request');
@@ -117,6 +126,7 @@ export async function startHttpServer(port: number, mcpServer: McpServer): Promi
     const transport = new SSEServerTransport('/messages', res);
     console.log('New SSE connection established');
 
+    const mcpServer = createMcpServer();
     transports.sse[transport.sessionId] = transport;
     res.on('close', () => {
       delete transports.sse[transport.sessionId];

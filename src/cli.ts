@@ -18,14 +18,13 @@ export async function startServer(): Promise<void> {
   const env0Client = new Env0Client(config);
   const env0Service = new Env0Service(config, env0Client);
 
-  const server = createMcpServer(env0Service);
-
   if (isHttpMode) {
     console.log(`Initializing Env0 MCP Server in HTTP mode on port ${port}...`);
-    await startHttpServer(+port, server);
+    // One McpServer per session: an McpServer can only be connected to one transport.
+    await startHttpServer(+port, () => createMcpServer(env0Service));
   } else {
     const transport = new StdioServerTransport();
-    await server.connect(transport);
+    await createMcpServer(env0Service).connect(transport);
   }
 }
 
