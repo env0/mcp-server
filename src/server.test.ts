@@ -5,10 +5,14 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { startHttpServer } from './server';
 
 const createTestServer = () => new McpServer({ name: 'test', version: '0.0.0' });
+const sharedTestServer = () => {
+  const server = createTestServer();
+  return () => server;
+};
 
 describe('POST /messages', () => {
   it('does not echo an unknown session ID in the 400 response', async () => {
-    const httpServer = await startHttpServer(0, createTestServer);
+    const httpServer = await startHttpServer(0, sharedTestServer());
     after(() => httpServer.close());
     const { port } = httpServer.address() as AddressInfo;
     const sessionId = '<script>alert(1)</script>';
@@ -24,7 +28,7 @@ describe('POST /messages', () => {
 });
 
 describe('POST /mcp', () => {
-  it('accepts concurrent sessions', async () => {
+  it('accepts concurrent sessions when each session gets its own McpServer', async () => {
     const httpServer = await startHttpServer(0, createTestServer);
     after(() => httpServer.close());
     const { port } = httpServer.address() as AddressInfo;
@@ -48,8 +52,8 @@ describe('POST /mcp', () => {
         })
       });
 
-    // Previously the second initialize failed with
-    // "Already connected to a transport" (500) because all sessions shared one McpServer.
+    // With a single shared McpServer the second initialize fails with
+    // "Already connected to a transport" (500).
     const responses = await Promise.all([initialize(), initialize(), initialize()]);
 
     assert.deepEqual(

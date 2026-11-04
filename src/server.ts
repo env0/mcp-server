@@ -12,12 +12,16 @@ const transports = {
   streamable: {} as Record<string, StreamableHTTPServerTransport>,
   sse: {} as Record<string, SSEServerTransport>
 };
-// An McpServer can only be connected to one transport at a time, so each
-// session gets its own instance. When the transport closes the SDK detaches it,
-// and the per-session server is garbage-collected with it.
+// McpServer used by each session. With MCP_SESSION_MODE=per-session every session
+// gets its own instance (an McpServer can only be connected to one transport at a
+// time); in the default shared mode getMcpServer always returns the same instance.
 const sessionServers = new WeakMap<Transport, McpServer>();
 
-export async function startHttpServer(port: number, createMcpServer: () => McpServer): Promise<Server> {
+/**
+ * @param getMcpServer called once per new session. Return the same instance to
+ * share one McpServer across sessions, or a new one to isolate each session.
+ */
+export async function startHttpServer(port: number, getMcpServer: () => McpServer): Promise<Server> {
   const app = express();
 
   // Parse JSON requests for the Streamable HTTP endpoint only, will break SSE endpoint
@@ -36,7 +40,7 @@ export async function startHttpServer(port: number, createMcpServer: () => McpSe
       mcpServer = sessionServers.get(transport as Transport)!;
     } else if (!sessionId && isInitializeRequest(req.body)) {
       console.log('New initialization request for StreamableHTTP');
-      mcpServer = createMcpServer();
+      mcpServer = getMcpServer();
       const sessionServer = mcpServer;
       transport = new StreamableHTTPServerTransport({
         sessionIdGenerator: () => randomUUID(),
@@ -126,7 +130,7 @@ export async function startHttpServer(port: number, createMcpServer: () => McpSe
     const transport = new SSEServerTransport('/messages', res);
     console.log('New SSE connection established');
 
-    const mcpServer = createMcpServer();
+    const mcpServer = getMcpServer();
     transports.sse[transport.sessionId] = transport;
     res.on('close', () => {
       delete transports.sse[transport.sessionId];
