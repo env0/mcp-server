@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.8](https://github.com/env0/mcp-server/compare/1.1.7...1.1.8) (2026-11-04)
+
+
+### Bug Fixes
+
+* **deps:** Update Node.js to v26 ([#112](https://github.com/env0/mcp-server/issues/112)) ([82eba8e](https://github.com/env0/mcp-server/commit/82eba8ef18dc42bf1bfab61218ef335af759f43f))
+* **deps:** Update non-major ([#115](https://github.com/env0/mcp-server/issues/115)) ([cc2b9f0](https://github.com/env0/mcp-server/commit/cc2b9f0528cf6b1cfc4b946183069b1d7b414c72))
+* **deps:** Update transitive dependencies to fix Dependabot alerts ([#121](https://github.com/env0/mcp-server/issues/121)) ([8018c65](https://github.com/env0/mcp-server/commit/8018c65b520ae5457227e1699fce78aa826ad5fa))
+
 ## [1.1.7](https://github.com/env0/mcp-server/compare/1.1.6...1.1.7) (2026-11-02)
 
 
