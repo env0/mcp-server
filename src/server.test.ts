@@ -4,8 +4,8 @@ import { after, describe, it } from 'node:test';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { startHttpServer } from './server';
 
-const createTestServer = () => new McpServer({ name: 'test', version: '0.0.0' });
-const sharedTestServer = () => {
+const createTestServer = (): McpServer => new McpServer({ name: 'test', version: '0.0.0' });
+const sharedTestServer = (): (() => McpServer) => {
   const server = createTestServer();
   return () => server;
 };
@@ -33,7 +33,7 @@ describe('POST /mcp', () => {
     after(() => httpServer.close());
     const { port } = httpServer.address() as AddressInfo;
 
-    const initialize = () =>
+    const initialize = (): ReturnType<typeof fetch> =>
       fetch(`http://localhost:${port}/mcp`, {
         method: 'POST',
         headers: {

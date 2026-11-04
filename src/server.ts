@@ -21,7 +21,10 @@ const sessionServers = new WeakMap<Transport, McpServer>();
  * @param getMcpServer called once per new session. Return the same instance to
  * share one McpServer across sessions, or a new one to isolate each session.
  */
-export async function startHttpServer(port: number, getMcpServer: () => McpServer): Promise<Server> {
+export async function startHttpServer(
+  port: number,
+  getMcpServer: () => McpServer
+): Promise<Server> {
   const app = express();
 
   // Parse JSON requests for the Streamable HTTP endpoint only, will break SSE endpoint

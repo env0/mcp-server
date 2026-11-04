@@ -30,7 +30,9 @@ export async function startServer(): Promise<void> {
 
   if (isHttpMode) {
     const sessionMode = getSessionMode();
-    console.log(`Initializing Env0 MCP Server in HTTP mode on port ${port} (session mode: ${sessionMode})...`);
+    console.log(
+      `Initializing Env0 MCP Server in HTTP mode on port ${port} (session mode: ${sessionMode})...`
+    );
     if (sessionMode === 'per-session') {
       // A new McpServer per session, so multiple sessions can be open concurrently.
       await startHttpServer(+port, () => createMcpServer(env0Service));
