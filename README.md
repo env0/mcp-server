@@ -984,6 +984,17 @@ The container supports both MCP transport modes:
 docker run -d -p 3000:3000 -e PORT=3000 -e MCP_TRANSPORT=http env0/mcp-server
 ```
 
+By default, all HTTP sessions share a single MCP server instance, so only one session can be connected at a time. To serve multiple clients concurrently (for example, a shared deployment or a gateway that opens parallel sessions), set `MCP_SESSION_MODE=per-session` to give each session its own MCP server instance:
+
+| `MCP_SESSION_MODE` | Behavior |
+|---|---|
+| `shared` (default) | One MCP server instance for every session. A new session can only connect once the previous one has closed. |
+| `per-session` | A new MCP server instance per session. Multiple sessions can be open concurrently. |
+
+```bash
+docker run -d -p 3000:3000 -e PORT=3000 -e MCP_TRANSPORT=http -e MCP_SESSION_MODE=per-session env0/mcp-server
+```
+
 Then, configure your MCP client to use the HTTP transport mode:
 
 ```json
