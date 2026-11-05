@@ -8,8 +8,8 @@
     "start": "tsx src/cli.ts",
     "dev": "tsx watch src/cli.ts",
     "test": "tsx --test 'src/**/*.test.ts'",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "type-check": "tsc --noEmit"
@@ -22,30 +22,24 @@
     "experimentalSpecifierResolution": "node"
   },
   "devDependencies": {
-    "@eslint/js": "10.0.1",
     "@types/axios": "^0.14.4",
     "@types/express": "5.0.6",
+    "@types/lodash": "4.17.27",
     "@types/node": "26.6.6",
-    "@typescript-eslint/eslint-plugin": "8.72.1",
-    "@typescript-eslint/parser": "8.72.1",
-    "eslint": "10.14.0",
-    "eslint-config-prettier": "10.1.8",
-    "eslint-plugin-prettier": "5.5.7",
-    "eslint-plugin-unused-imports": "4.4.1",
     "nodemon": "3.1.14",
+    "oxlint": "1.91.0",
     "prettier": "3.9.10",
     "ts-node": "10.9.2",
-    "typescript": "5.9.3",
-    "@types/lodash": "4.17.27"
+    "typescript": "5.9.3"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.32.2",
     "axios": "^1.18.1",
     "dotenv": "18.0.9",
     "express": "5.3.0",
-    "morgan": "1.12.1",
-    "zod": "4.6.7",
     "lodash": "4.18.1",
-    "tsx": "4.23.15"
+    "morgan": "1.12.1",
+    "tsx": "4.23.15",
+    "zod": "4.6.7"
   }
 }
