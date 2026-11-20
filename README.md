@@ -804,13 +804,25 @@ Analyze errors from the last environment deployment.
   - `environmentId` (required): The environment ID to analyze errors for
 - **Usage**: "Analyze errors for environment xyz" or "What went wrong with my last deployment?"
 
+### **search-deployments**
+Find recent deployments for an environment, optionally filtered by status.
+- **Description**: List an environment's deployments, newest first, to pick a `deploymentLogId` for `get-deployment-context`
+- **Parameters**:
+  - `environmentId` (required): The environment to list deployments for
+  - `statuses` (optional): Comma-separated statuses to filter by, e.g. `FAILURE`, `SUCCESS`, `IN_PROGRESS`, `CANCELLED`, `ABORTED`, `WAITING_FOR_USER`, `TIMEOUT`
+  - `limit` (optional): Maximum deployments to return. Defaults to 10, max 25
+  - `offset` (optional): Number of deployments to skip. Prefer filtering with `statuses`
+- **Returns**: Each deployment's ID, status, type, timestamps, trigger, comment, resource count, template revision and type, PR number, git metadata, plan summary and failed command. `hasMore` is `true` when another page exists.
+- **Note**: For the latest deployment alone, use `get-plan-logs` or `get-error-analysis`; they need no ID.
+- **Usage**: "Show me the failed deployments of environment xyz" or "List the last 5 deployments of my staging environment"
+
 ### **get-deployment-context**
-Fetch full debug context for one specific (historical) deployment: metadata, all step statuses, and the log of the most relevant step (auto-picks the failed step; falls back to the plan step on success).
-- **Description**: Debug a past deployment by ID — metadata + steps + auto-picked step log
+Fetch full debug context for one specific (historical) deployment: metadata, all step statuses, and the log of the first failed step (status `FAIL` or `TIMEOUT`). When no step failed and no `stepName` is given, `log` is `null`.
+- **Description**: Debug a past deployment by ID — metadata + steps + failed step log
 - **Parameters**:
   - `deploymentLogId` (required): The deployment to inspect. Use `search-deployments` first to find one.
-  - `stepName` (optional): Inspect a specific step (e.g., `tf:apply`, `tf:destroy`). Omit to auto-pick (failed step preferred, falls back to plan step).
-- **Note**: For the *latest* deployment's plan log, prefer `get-plan-logs` (no ID needed). For an error summary, prefer `get-error-analysis`. `state:get` is blocked.
+  - `stepName` (optional): Inspect a specific step (e.g., `tf:plan`, `tf:apply`, `tf:destroy`). Omit to get the first failed step. Pass it to read a step of a successful deployment. A step that has not started returns an error.
+- **Note**: For the *latest* deployment's plan log, prefer `get-plan-logs` (no ID needed). For an error summary, prefer `get-error-analysis`.
 - **Usage**: "Why did the deployment from yesterday on env X fail?" → chain via `search-deployments` then this tool.
 
 </details>
@@ -981,7 +993,7 @@ The container supports both MCP transport modes:
 - Set `MCP_TRANSPORT` environment variable to `http` to enable
 
 ```bash
-docker run -d -p 3000:3000 -e PORT=3000 -e MCP_TRANSPORT=http env0/mcp-server
+docker run -d -p 3000:3000 -e PORT=3000 -e MCP_TRANSPORT=http -e ENV0_API_KEY=your-api-key-here -e ENV0_API_SECRET=your-api-secret-here -e ENV0_ORGANIZATION_ID=your-org-id-here env0/mcp-server
 ```
 
 Then, configure your MCP client to use the HTTP transport mode:
